@@ -6,6 +6,6 @@ class Item
     @unit_price = unit_price
     @created_at = # Time.new(created_at)
     @updated_at = # Time
-    @marchant_id = merchant_id
+    @merchant_id = merchant_id
   end
 end
