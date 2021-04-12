@@ -1,4 +1,5 @@
 require 'csv'
+require './spec/spec_helper'
 
 class SalesEngine
   attr_reader :items_array, :merchants_array
