@@ -1,6 +1,8 @@
+require 'pry'
 require './lib/sales_engine'
 require './lib/item'
 require './lib/merchant'
+require './lib/merchant_repository'
 
 
 se = SalesEngine.new
@@ -9,5 +11,4 @@ se.from_csv({
                         items: './data/items.csv'
                      })
 
-p se.items_array.length
-p se.merchants_array.length
+binding.pry

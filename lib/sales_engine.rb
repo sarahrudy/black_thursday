@@ -31,10 +31,10 @@ class SalesEngine
   end
 
   def merchants
-
+    MerchantRepository.new(@merchants_array)
   end
 
   def items
-
+    ItemRepository.new(@items_array)
   end
 end
