@@ -4,4 +4,4 @@ gem 'rake'
 gem 'cane'
 gem 'reek'
 gem 'rspec'
-gem 'minitest'
+gem 'simplecov', require: false, group: :test
