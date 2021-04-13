@@ -21,6 +21,9 @@ class Repository # super class
   end
 
   def find_all_by_name(name)
+    @data_objects.find_all do |data|
+      data.name.casecmp?(name)
+    end
   end
 
   def update(id, attributes)
