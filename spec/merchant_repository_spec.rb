@@ -4,8 +4,7 @@ RSpec.describe MerchantRepository do
   before(:each) do
     @sales_engine = SalesEngine.new
     @sales_engine.from_csv({
-                            merchants: './data/merchants.csv',
-                            # items: './data/items.csv'
+                            merchants: './data/merchants_truncated.csv',
                          })
   end
   describe 'instantiation' do
