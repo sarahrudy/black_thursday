@@ -71,5 +71,35 @@ RSpec.describe ItemRepository do
       item_repo = @sales_engine.items
       expect(item_repo.all).to eq(item_repo.items)
     end
+
+    it 'should update item' do
+      item_repo = @sales_engine.items
+      item = item_repo.create({
+                                name: 'Test Item',
+                                description: 'Im a test',
+                                unit_price: '1.00',
+                                created_at: DateTime.now.to_s,
+                                updated_at: DateTime.now.to_s,
+                                merchant_id: 123,
+                              })
+      expect(item_repo.find_by_id(item.id)).to eq(item)
+      new_item = item_repo.update(item.id, {name: 'Im another test'})
+      expect(item_repo.find_by_id(new_item.id).name).to eq('Im another test')
+    end
+
+    it 'should update unit price and be BigDecimal' do
+      item_repo = @sales_engine.items
+      item = item_repo.create({
+                                name: 'Test Item',
+                                description: 'Im a test',
+                                unit_price: '1.00',
+                                created_at: DateTime.now.to_s,
+                                updated_at: DateTime.now.to_s,
+                                merchant_id: 123,
+                              })
+      expect(item_repo.find_by_id(item.id)).to eq(item)
+      new_item = item_repo.update(item.id, {unit_price: 12200})
+      expect(item_repo.find_by_id(new_item.id).unit_price).to be_instance_of(BigDecimal)
+    end
   end
 end
