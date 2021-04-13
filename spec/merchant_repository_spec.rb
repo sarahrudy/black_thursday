@@ -45,5 +45,16 @@ RSpec.describe MerchantRepository do
 
       expect(merchant_1).to be_instance_of(Merchant)
     end
-  end
+
+    it 'find by name' do
+      merchant_repository = @sales_engine.merchants
+      merchant_1 = merchant_repository.create({
+        name: 'Zachs Store',
+        created_at: DateTime.now.to_s,
+        updated_at: DateTime.now.to_s
+        })
+
+      expect(merchant_repository.find_by_name(merchant_1.name)).to eq(merchant_1)
+    end
+
 end
