@@ -25,5 +25,18 @@ RSpec.describe ItemRepository do
                         })
       expect(item).to be_instance_of(Item)
     end
+
+    it 'should find item by id' do
+      items_repo = @sales_engine.items
+      item = items_repo.create({
+                                 name: 'Test Item',
+                                 description: 'Im a test',
+                                 unit_price: '1.00',
+                                 created_at: DateTime.now.to_s,
+                                 updated_at: DateTime.now.to_s,
+                                 merchant_id: 123,
+                               })
+      expect(items_repo.find_by_id(item.id)).to eq(item)
+    end
   end
 end
