@@ -10,3 +10,11 @@ class MerchantRepository
   end
 end
 
+  def find_last_id
+    merchants = @merchants.sort_by do |merchant|
+      merchant.id
+    end
+    merchant = merchants.last
+    merchant.id
+  end
+end
