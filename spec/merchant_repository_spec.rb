@@ -24,6 +24,18 @@ RSpec.describe MerchantRepository do
       expect(merchant_repository.all).to eq(merchant_repository.merchants)
     end
 
+    it 'can return merchant by id' do
+      merchant_repository = @sales_engine.merchants
+      expect(merchant_repository.find_by_id(0)).to eq(nil)
+      merchant_1 = merchant_repository.create({
+        name: 'Zachs Store',
+        created_at: DateTime.now.to_s,
+        updated_at: DateTime.now.to_s
+        })
+
+      expect(merchant_repository.find_by_id(merchant_1.id)).to eq(merchant_1)
+    end
+
     it 'create merchant' do
       merchant_repository = @sales_engine.merchants
       merchant_1 = merchant_repository.create({
