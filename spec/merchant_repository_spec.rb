@@ -23,5 +23,16 @@ RSpec.describe MerchantRepository do
       # look into a different way of wording our test.
       expect(merchant_repository.all).to eq(merchant_repository.merchants)
     end
+
+    it 'create merchant' do
+      merchant_repository = @sales_engine.merchants
+      merchant_1 = merchant_repository.create({
+        name: 'Zachs Store',
+        created_at: DateTime.now.to_s,
+        updated_at: DateTime.now.to_s
+        })
+
+      expect(merchant_1).to be_instance_of(Merchant)
+    end
   end
 end
