@@ -8,7 +8,12 @@ class MerchantRepository
   def all
     @merchants
   end
-end
+  def create(attributes)
+    attributes[:id] = find_last_id + 1
+    merchant = Merchant.new(attributes)
+    @merchants << merchant
+    merchant
+  end
 
   def find_last_id
     merchants = @merchants.sort_by do |merchant|
