@@ -27,9 +27,17 @@ class Repository # super class
   end
 
   def update(id, attributes)
+    data = find_by_id(id)
+    attributes.each do |key,value|
+      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    end
+    data.updated_at = DateTime.now
+    data
   end
 
   def delete(id)
+    data = find_by_id(id)
+    @data_objects.delete(data)
   end
 
 private # can't be accessed with their instance after the class
