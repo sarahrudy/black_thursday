@@ -43,6 +43,7 @@ RSpec.describe MerchantRepository do
         })
 
       expect(merchant_1).to be_instance_of(Merchant)
+      expect(merchant_repository.all).to include(merchant_1)
     end
   end
 end

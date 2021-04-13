@@ -1,18 +1,9 @@
-
-class MerchantRepository
+require './lib/repository'
+class MerchantRepository < Repository
   attr_reader :merchants
   def initialize(merchants)
+    super(merchants)
     @merchants = merchants
-  end
-
-  def all
-    @merchants
-  end
-
-  def find_by_id(id)
-    @merchants.find do |merchant|
-      merchant.id == id
-    end
   end
 
   def create(attributes)
@@ -20,13 +11,5 @@ class MerchantRepository
     merchant = Merchant.new(attributes)
     @merchants << merchant
     merchant
-  end
-
-  def find_last_id
-    merchants = @merchants.sort_by do |merchant|
-      merchant.id
-    end
-    merchant = merchants.last
-    merchant.id
   end
 end

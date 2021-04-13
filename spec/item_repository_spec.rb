@@ -24,6 +24,7 @@ RSpec.describe ItemRepository do
                           merchant_id: 123,
                         })
       expect(item).to be_instance_of(Item)
+      expect(item_repo.all).to include(item)
     end
 
     it 'should find item by id' do
