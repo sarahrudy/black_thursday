@@ -3,6 +3,10 @@ require_relative 'spec_helper'
 RSpec.describe MerchantRepository do
   before(:each) do
     @sales_engine = SalesEngine.new
+    @sales_engine.from_csv({
+                            merchants: './data/merchants.csv',
+                            # items: './data/items.csv'
+                         })
   end
   describe 'instantiation' do
     it "::new" do
