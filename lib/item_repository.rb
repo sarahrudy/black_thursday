@@ -46,6 +46,8 @@ class ItemRepository
 
   def delete(id)
     # delete the Item instance with the corresponding id
+    item = find_by_id(id)
+    @items.delete(item)
   end
 
   private

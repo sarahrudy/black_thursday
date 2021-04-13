@@ -14,8 +14,8 @@ RSpec.describe ItemRepository do
 
   context 'methods' do
     it 'should create an item' do
-      items_repo = @sales_engine.items
-      item = items_repo.create({
+      item_repo = @sales_engine.items
+      item = item_repo.create({
                           name: 'Test Item',
                           description: 'Im a test',
                           unit_price: '1.00',
@@ -27,8 +27,8 @@ RSpec.describe ItemRepository do
     end
 
     it 'should find item by id' do
-      items_repo = @sales_engine.items
-      item = items_repo.create({
+      item_repo = @sales_engine.items
+      item = item_repo.create({
                                  name: 'Test Item',
                                  description: 'Im a test',
                                  unit_price: '1.00',
@@ -36,12 +36,12 @@ RSpec.describe ItemRepository do
                                  updated_at: DateTime.now.to_s,
                                  merchant_id: 123,
                                })
-      expect(items_repo.find_by_id(item.id)).to eq(item)
+      expect(item_repo.find_by_id(item.id)).to eq(item)
     end
 
     it 'should find item by name' do
-      items_repo = @sales_engine.items
-      item = items_repo.create({
+      item_repo = @sales_engine.items
+      item = item_repo.create({
                                  name: 'Test Item',
                                  description: 'Im a test',
                                  unit_price: '1.00',
@@ -49,7 +49,22 @@ RSpec.describe ItemRepository do
                                  updated_at: DateTime.now.to_s,
                                  merchant_id: 123,
                                })
-      expect(items_repo.find_by_name(item.name)).to eq(item)
+      expect(item_repo.find_by_name(item.name)).to eq(item)
+    end
+
+    it 'should be able to be deleted' do
+      item_repo = @sales_engine.items
+      item = item_repo.create({
+                                 name: 'Test Item',
+                                 description: 'Im a test',
+                                 unit_price: '1.00',
+                                 created_at: DateTime.now.to_s,
+                                 updated_at: DateTime.now.to_s,
+                                 merchant_id: 123,
+                               })
+      expect(item_repo.find_by_id(item.id)).to eq(item)
+      item_repo.delete(item.id)
+      expect(item_repo.find_by_id(item.id)).to be(nil)
     end
   end
 end
