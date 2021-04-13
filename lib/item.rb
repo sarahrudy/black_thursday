@@ -1,3 +1,4 @@
+require 'bigdecimal'
 class Item
   attr_reader :id,
               :name,
@@ -10,7 +11,7 @@ class Item
     @id = id.to_i
     @name = name
     @description = description
-    @unit_price = unit_price
+    @unit_price = BigDecimal(unit_price,2)
     @created_at = DateTime.parse(created_at)
     @updated_at = DateTime.parse(updated_at)
     @merchant_id = merchant_id.to_i

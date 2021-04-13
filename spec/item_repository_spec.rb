@@ -66,5 +66,10 @@ RSpec.describe ItemRepository do
       item_repo.delete(item.id)
       expect(item_repo.find_by_id(item.id)).to be(nil)
     end
+
+    it 'should return all items' do
+      item_repo = @sales_engine.items
+      expect(item_repo.all).to eq(item_repo.items)
+    end
   end
 end
