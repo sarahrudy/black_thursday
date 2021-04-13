@@ -9,7 +9,7 @@ class ItemRepository < Repository
   def create(attributes)
     attributes[:id] = find_last_id + 1
     item = Item.new(attributes)
-    @data << item
+    @items << item
     item
   end
 
