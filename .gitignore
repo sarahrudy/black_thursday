@@ -1,2 +1,3 @@
 .idea
 coverage
+.rubocop_todo.yml

@@ -32,7 +32,6 @@ RSpec.describe MerchantRepository do
         created_at: DateTime.now.to_s,
         updated_at: DateTime.now.to_s
         })
-
       expect(merchant_repository.find_by_id(merchant_1.id)).to eq(merchant_1)
     end
 

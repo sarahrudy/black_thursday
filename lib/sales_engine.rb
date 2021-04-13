@@ -25,7 +25,7 @@ class SalesEngine
 
   def parse_csv(file_path, klass)
     array = []
-    CSV.foreach(file_path, headers: true, header_converters: :symbol) do |row|
+    CSV.foreach(file_path, :headers => true, :header_converters => :symbol) do |row|
       array << klass.new(row.to_hash)
     end
     array

@@ -4,8 +4,8 @@ class Item
     @name = name
     @description = description
     @unit_price = unit_price
-    @created_at = # Time.new(created_at)
-    @updated_at = # Time
+    @created_at = DateTime.parse(created_at)
+    @updated_at = DateTime.parse(updated_at)
     @merchant_id = merchant_id
   end
 end

@@ -6,4 +6,6 @@ class Merchant
     @created_at = DateTime.parse(created_at)
     @updated_at = DateTime.parse(updated_at)
   end
+
+  # Add create method here
 end
