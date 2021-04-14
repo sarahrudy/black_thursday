@@ -15,13 +15,15 @@ class SalesEngine
   def initialize(item_path, merchant_path)
     @item_path = item_path
     @merchant_path = merchant_path
+    @item_repository = ItemRepository.new(@item_path)
+    @merchant_repository = MerchantRepository.new(@merchant_path)
   end
 
   def items
-    ItemRepository.new(@item_path)
+    @item_repository
   end
 
   def merchants
-    MerchantRepository.new(@merchant_path)
+    @merchant_repository
   end
 end

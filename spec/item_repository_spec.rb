@@ -3,7 +3,8 @@ require 'spec_helper'
 RSpec.describe ItemRepository do
   before(:each) do
     @sales_engine = SalesEngine.from_csv({
-                            items: './data/items.csv'
+                            items: './data/items.csv',
+                            merchants: './data/merchants.csv',
                          })
   end
   describe 'instantiation' do
