@@ -140,20 +140,6 @@ RSpec.describe ItemRepository do
 
       expect(item_repository.delete(item_1.id)).to eq(item_1)
     end
-
-    it 'converts unit price to dollars' do
-      item_repository = @sales_engine.items
-      item_1 = item_repository.create({
-                                      :name        => "iPhone Case",
-                                      :description => "Can drop phone without breaking it",
-                                      :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
-                                      :merchant_id => 2
-                                    })
-
-      expect(item_1.unit_price_to_dollars).to eq(10.99)
-    end
   end
 
 end
