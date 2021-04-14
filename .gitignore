@@ -1,3 +1,5 @@
 .idea
 coverage
 .rubocop_todo.yml
+
+.DS_Store
