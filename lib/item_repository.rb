@@ -1,9 +1,11 @@
-require './lib/repository'
-class ItemRepository < Repository
+require_relative 'item'
+require 'csv'
+
+class ItemRepository
   attr_reader :items
-  def initialize(items)
-    super(items)
-    @items = items
+
+  def initialize(file_path)
+    @items = create_items(file_path)
   end
 
   def create(attributes)
@@ -11,6 +13,13 @@ class ItemRepository < Repository
     item = Item.new(attributes)
     @items << item
     item  # returning instance of the item
+  end
+
+  def create_items(file_path)
+     csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
+      csv.map do |row|
+        Item.new(row)
+      end
   end
 
   def find_all_with_description(description)
@@ -23,6 +32,44 @@ class ItemRepository < Repository
       end
     end
     item_array
+  end
+
+  def all
+    @items
+  end
+
+  def find_by_id(id)
+    @items.find do |data|
+      data.id == id
+    end
+  end
+
+  def find_by_name(name)
+    @items.find do |data|
+      data.name.casecmp?(name)
+    end
+  end
+
+  def update(id, attributes)
+    data = find_by_id(id)
+    attributes.each do |key,value|
+      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    end
+    data.updated_at = DateTime.now
+    data
+  end
+
+  def delete(id)
+    data = find_by_id(id)
+    @items.delete(data)
+  end
+
+  def find_last_id
+    @items = @items.sort_by do |data|
+      data.id.to_i
+    end
+    data = @items.last
+    data.id
   end
 
   def find_all_by_price(price)
@@ -44,5 +91,9 @@ class ItemRepository < Repository
     @items.find_all do |item|
       item.merchant_id == merchant_id
     end
+  end
+
+  def inspect
+  "#<#{self.class} #{@items.size} rows>"
   end
 end

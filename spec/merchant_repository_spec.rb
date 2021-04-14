@@ -2,14 +2,13 @@ require_relative 'spec_helper'
 
 RSpec.describe MerchantRepository do
   before(:each) do
-    @sales_engine = SalesEngine.new
-    @sales_engine.from_csv({
+    @sales_engine = SalesEngine.from_csv({
                             merchants: './data/merchants.csv',
                          })
   end
   describe 'instantiation' do
     it "::new" do
-      merchant_repository = MerchantRepository.new([])
+      merchant_repository = @sales_engine.merchants
 
       expect(merchant_repository).to be_instance_of(MerchantRepository)
     end

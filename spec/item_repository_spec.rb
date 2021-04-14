@@ -2,14 +2,13 @@ require 'spec_helper'
 
 RSpec.describe ItemRepository do
   before(:each) do
-    @sales_engine = SalesEngine.new
-    @sales_engine.from_csv({
+    @sales_engine = SalesEngine.from_csv({
                             items: './data/items.csv'
                          })
   end
   describe 'instantiation' do
     it "::new" do
-      item_repository = ItemRepository.new([])
+      item_repository = @sales_engine.items
 
       expect(item_repository).to be_instance_of(ItemRepository)
     end
