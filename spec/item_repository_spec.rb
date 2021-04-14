@@ -87,6 +87,20 @@ RSpec.describe ItemRepository do
 
       expect(item_repository.find_all_by_price_in_range(BigDecimal(10.00,4)..BigDecimal(11.00,4))).to eq([item_1])
     end
+
+    it 'finds all items by merchant id' do
+      item_repository = @sales_engine.items
+      item_1 = item_repository.create({
+                                      :name        => "iPhone Case",
+                                      :description => "Can drop phone without breaking it",
+                                      :unit_price  => BigDecimal(10.99,4),
+                                      :created_at  => DateTime.now.to_s,
+                                      :updated_at  => DateTime.now.to_s,
+                                      :merchant_id => 2
+                                    })
+
+      expect(item_repository.find_all_by_merchant_id(item_1.merchant_id)).to eq([item_1])
+    end
   end
 
 end
