@@ -33,4 +33,10 @@ class ItemRepository < Repository
       item.unit_price == price
     end
   end
+
+  def find_all_by_price_in_range(range)
+    @items.find_all do |item|
+      range.cover?(item.unit_price)
+    end
+  end
 end
