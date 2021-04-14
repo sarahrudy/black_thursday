@@ -24,4 +24,13 @@ class ItemRepository < Repository
     end
     item_array
   end
+
+  def find_all_by_price(price)
+    if !price.instance_of?(BigDecimal)
+      price = BigDecimal(price)
+    end
+    @items.find_all do |item|
+      item.unit_price == price
+    end
+  end
 end
