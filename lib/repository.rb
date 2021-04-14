@@ -44,7 +44,7 @@ private # can't be accessed with their instance after the class
 
   def find_last_id
     data_objects = @data_objects.sort_by do |data|
-      data.id
+      data.id.to_i
     end
     data = data_objects.last
     data.id
