@@ -12,4 +12,16 @@ class ItemRepository < Repository
     @items << item
     item  # returning instance of the item
   end
+
+  def find_all_with_description(description)
+    # can refactor this to map enumerable
+    item_array = []
+    @items.each do |item|
+      item_downcase = item.description.downcase
+      if item_downcase.include?(description.downcase)
+        item_array << item
+      end
+    end
+    item_array
+  end
 end
