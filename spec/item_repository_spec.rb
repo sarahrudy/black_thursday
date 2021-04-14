@@ -118,6 +118,28 @@ RSpec.describe ItemRepository do
 
       expect(expected.name).to eq('iPhone Protective Holder')
     end
+
+    it 'can delete item' do
+      item_repository = @sales_engine.items
+      item_1 = item_repository.create({
+                                      :name        => "iPhone Case",
+                                      :description => "Can drop phone without breaking it",
+                                      :unit_price  => BigDecimal(10.99,4),
+                                      :created_at  => DateTime.now.to_s,
+                                      :updated_at  => DateTime.now.to_s,
+                                      :merchant_id => 2
+                                    })
+      item_2 = item_repository.create({
+                                      :name        => "iPhone Case",
+                                      :description => "Can drop phone without breaking it",
+                                      :unit_price  => BigDecimal(15.99,4),
+                                      :created_at  => DateTime.now.to_s,
+                                      :updated_at  => DateTime.now.to_s,
+                                      :merchant_id => 2
+                                    })
+
+      expect(item_repository.delete(item_1.id)).to eq(item_1)
+    end
   end
 
 end
