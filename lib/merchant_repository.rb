@@ -7,7 +7,7 @@ class MerchantRepository < Repository
   end
 
   def create(attributes)
-    attributes[:id] = find_last_id + 1
+    attributes[:id] = find_last_id.to_i + 1
     merchant = Merchant.new(attributes)
     @merchants << merchant
     merchant
