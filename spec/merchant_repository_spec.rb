@@ -2,91 +2,84 @@ require_relative 'spec_helper'
 
 RSpec.describe MerchantRepository do
   before(:each) do
-    @sales_engine = SalesEngine.new
-    @sales_engine.from_csv({
+    @sales_engine = SalesEngine.from_csv({
+                            items: './data/items.csv',
                             merchants: './data/merchants.csv',
                          })
   end
   describe 'instantiation' do
     it "::new" do
-      merchant_repository = MerchantRepository.new([])
 
-      expect(merchant_repository).to be_instance_of(MerchantRepository)
+      expect(@sales_engine.merchants).to be_instance_of(MerchantRepository)
     end
   end
 
   describe 'merchant repository methods' do
     it 'can return an array of all known merchant instances'do
-      merchant_repository = @sales_engine.merchants
 
       # look into a different way of wording our test.
-      expect(merchant_repository.all).to eq(merchant_repository.merchants)
+      expect(@sales_engine.merchants.all.size).to eq(475)
     end
 
     it 'create merchant' do
-      merchant_repository = @sales_engine.merchants
-      merchant_1 = merchant_repository.create({
-                                              name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
-                                              })
+      @sales_engine.merchants.create({
+                                      name: 'Zachs Store',
+                                      })
 
-      expect(merchant_1).to be_instance_of(Merchant)
+      expected = @sales_engine.merchants.find_by_id(12337412)
+
+      expect(expected.name).to eq('Zachs Store')
     end
 
     it 'find by name' do
-      merchant_repository = @sales_engine.merchants
-      merchant_1 = merchant_repository.create({
+      merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
 
-      expect(merchant_repository.find_by_name(merchant_1.name)).to eq(merchant_1)
+      expect(@sales_engine.merchants.find_by_name(merchant_1.name)).to eq(merchant_1)
     end
 
     it 'find all by name' do
-      merchant_repository = @sales_engine.merchants
-      merchant_1 = merchant_repository.create({
+      merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
-      merchant_2 = merchant_repository.create({
+      merchant_2 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
 
-      expect(merchant_repository.find_all_by_name(merchant_1.name)).to eq([merchant_1, merchant_2])
+      expect(@sales_engine.merchants.find_all_by_name(merchant_1.name)).to eq([merchant_1, merchant_2])
     end
 
     it 'can delete a merchant' do
-      merchant_repository = @sales_engine.merchants
-      merchant_1 = merchant_repository.create({
+      merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
-      merchant_2 = merchant_repository.create({
+      merchant_2 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
 
-      expect(merchant_repository.delete(merchant_1.id)).to eq(merchant_1)
+      expect(@sales_engine.merchants.delete(merchant_1.id)).to eq(merchant_1)
     end
 
     it 'can update a merchant' do
-      merchant_repository = @sales_engine.merchants
-      merchant_1 = merchant_repository.create({
+      merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
 
         attributes = {name: 'Bobs store'}
-        expected = merchant_repository.update(merchant_1.id, attributes)
+        expected = @sales_engine.merchants.update(merchant_1.id, attributes)
 
       expect(expected.name).to eq('Bobs store')
     end

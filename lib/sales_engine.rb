@@ -1,41 +1,29 @@
-require 'csv'
-require './spec/spec_helper'
+require_relative 'item_repository'
+require_relative 'merchant_repository'
 
 class SalesEngine
-  attr_reader :items_array, :merchants_array
+  attr_reader :item_path,
+              :merchant_path
 
-  def from_csv(csv_files)
-    csv_files.each do |name, file_path|
-      case name
-      when :items
-        create_items(file_path)
-      when :merchants
-        create_merchants(file_path)
-      end
-    end
+  def self.from_csv(file_paths)
+    item_path = file_paths[:items]
+    merchant_path = file_paths[:merchants]
+
+    SalesEngine.new(item_path, merchant_path)
   end
 
-  def create_items(file_path)
-    @items_array = parse_csv(file_path, Item)
-  end
-
-  def create_merchants(file_path)
-    @merchants_array = parse_csv(file_path, Merchant)
-  end
-
-  def parse_csv(file_path, klass)
-    array = []
-    CSV.foreach(file_path, :headers => true, :header_converters => :symbol) do |row|
-      array << klass.new(row.to_hash)
-    end
-    array
-  end
-
-  def merchants
-    MerchantRepository.new(@merchants_array)
+  def initialize(item_path, merchant_path)
+    @item_path = item_path
+    @merchant_path = merchant_path
+    @item_repository = ItemRepository.new(@item_path)
+    @merchant_repository = MerchantRepository.new(@merchant_path)
   end
 
   def items
-    ItemRepository.new(@items_array)
+    @item_repository
+  end
+
+  def merchants
+    @merchant_repository
   end
 end

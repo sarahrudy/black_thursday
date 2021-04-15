@@ -10,8 +10,8 @@ RSpec.describe Item do
                         :name        => "iPhone Case",
                         :description => "Can drop phone without breaking it",
                         :unit_price  => BigDecimal(10.99,4),
-                        :created_at  => DateTime.now.to_s,
-                        :updated_at  => DateTime.now.to_s,
+                        :created_at  => Time.now.to_s,
+                        :updated_at  => Time.now.to_s,
                         :merchant_id => 2
                       })
 
@@ -23,9 +23,9 @@ RSpec.describe Item do
                         :id          => 1234567,
                         :name        => "iPhone Case",
                         :description => "Can drop phone without breaking it",
-                        :unit_price  => BigDecimal(10.99,4),
-                        :created_at  => DateTime.now.to_s,
-                        :updated_at  => DateTime.now.to_s,
+                        :unit_price  => 1099,
+                        :created_at  => Time.now.to_s,
+                        :updated_at  => Time.now.to_s,
                         :merchant_id => 2
                       })
 
