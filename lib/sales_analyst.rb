@@ -4,7 +4,14 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant
+    merchants = @engine.merchants
+    items = @engine.items
+    arr = []
 
+    merchants.all.each do |merchant|
+      arr << items.find_all_by_merchant_id(merchant.id).size
+    end
+    (arr.sum / arr.size.to_f).round(2)
   end
 
   def average_items_per_merchant_standard_deviation

@@ -20,4 +20,5 @@ class Merchant
       Time.now
     end
   end
+
 end
