@@ -48,10 +48,11 @@ class MerchantRepository
 
   def update(id, attributes)
     merchant = find_by_id(id)
+    return if !merchant
     attributes.each do |key,value|
       merchant.send("#{key.to_s}=", value) if merchant.respond_to?("#{key.to_s}=")
     end
-    merchant.updated_at = DateTime.now
+    merchant.updated_at = Time.now
     merchant
   end
 

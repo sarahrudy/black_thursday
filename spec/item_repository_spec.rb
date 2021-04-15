@@ -29,8 +29,8 @@ RSpec.describe ItemRepository do
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
                                       :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
 
@@ -43,8 +43,8 @@ RSpec.describe ItemRepository do
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
                                       :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
 
@@ -57,13 +57,13 @@ RSpec.describe ItemRepository do
       item_1 = item_repository.create({
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
-                                      :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :unit_price  => 1099,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
 
-      expect(item_repository.find_all_by_price(BigDecimal(10.99,4))).to eq([item_1])
+      expect(item_repository.find_all_by_price(1099)).to eq([item_1])
     end
 
     it 'finds all items by price in range' do
@@ -71,21 +71,22 @@ RSpec.describe ItemRepository do
       item_1 = item_repository.create({
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
-                                      :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :unit_price  => 1099,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
       item_2 = item_repository.create({
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
-                                      :unit_price  => BigDecimal(15.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :unit_price  => 1599,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
 
-      expect(item_repository.find_all_by_price_in_range(BigDecimal(10.00,4)..BigDecimal(11.00,4))).to eq([item_1])
+      expect(item_repository.find_all_by_price_in_range(10.00..11.00).size).to eq(67)
+      expect(item_repository.find_all_by_price_in_range(10.00..11.00)).to include(item_1)
     end
 
     it 'finds all items by merchant id' do
@@ -94,8 +95,8 @@ RSpec.describe ItemRepository do
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
                                       :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
 
@@ -108,8 +109,8 @@ RSpec.describe ItemRepository do
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
                                       :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
 
@@ -124,17 +125,17 @@ RSpec.describe ItemRepository do
       item_1 = item_repository.create({
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
-                                      :unit_price  => BigDecimal(10.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :unit_price  => 1099,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
       item_2 = item_repository.create({
                                       :name        => "iPhone Case",
                                       :description => "Can drop phone without breaking it",
-                                      :unit_price  => BigDecimal(15.99,4),
-                                      :created_at  => DateTime.now.to_s,
-                                      :updated_at  => DateTime.now.to_s,
+                                      :unit_price  => 1599,
+                                      :created_at  => Time.now.to_s,
+                                      :updated_at  => Time.now.to_s,
                                       :merchant_id => 2
                                     })
 

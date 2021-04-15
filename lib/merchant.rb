@@ -1,3 +1,5 @@
+require 'time'
+
 class Merchant
   attr_reader :id,
               :name
@@ -13,8 +15,8 @@ class Merchant
 
   def set_time(time)
     if time
-      DateTime.parse(time)
-    else 
+      Time.parse(time)
+    else
       Time.now
     end
   end

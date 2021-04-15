@@ -52,10 +52,11 @@ class ItemRepository
 
   def update(id, attributes)
     data = find_by_id(id)
+    return if !data
     attributes.each do |key,value|
       data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
     end
-    data.updated_at = DateTime.now
+    data.updated_at = Time.now
     data
   end
 
@@ -74,7 +75,7 @@ class ItemRepository
 
   def find_all_by_price(price)
     if !price.instance_of?(BigDecimal)
-      price = BigDecimal(price)
+      price = BigDecimal(price.to_i / 100.to_f, 4)
     end
     @items.find_all do |item|
       item.unit_price == price

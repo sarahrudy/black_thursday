@@ -34,23 +34,23 @@ RSpec.describe MerchantRepository do
     it 'find by name' do
       merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
-                                              
+
       expect(@sales_engine.merchants.find_by_name(merchant_1.name)).to eq(merchant_1)
     end
 
     it 'find all by name' do
       merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
       merchant_2 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
 
       expect(@sales_engine.merchants.find_all_by_name(merchant_1.name)).to eq([merchant_1, merchant_2])
@@ -59,13 +59,13 @@ RSpec.describe MerchantRepository do
     it 'can delete a merchant' do
       merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
       merchant_2 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
 
       expect(@sales_engine.merchants.delete(merchant_1.id)).to eq(merchant_1)
@@ -74,8 +74,8 @@ RSpec.describe MerchantRepository do
     it 'can update a merchant' do
       merchant_1 = @sales_engine.merchants.create({
                                               name: 'Zachs Store',
-                                              created_at: DateTime.now.to_s,
-                                              updated_at: DateTime.now.to_s
+                                              created_at: Time.now.to_s,
+                                              updated_at: Time.now.to_s
                                               })
 
         attributes = {name: 'Bobs store'}
