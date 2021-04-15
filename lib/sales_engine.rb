@@ -15,8 +15,8 @@ class SalesEngine
   def initialize(item_path, merchant_path)
     @item_path = item_path
     @merchant_path = merchant_path
-    @item_repository = ItemRepository.new(@item_path)
-    @merchant_repository = MerchantRepository.new(@merchant_path)
+    @item_repository = ItemRepository.new(@item_path, self)
+    @merchant_repository = MerchantRepository.new(@merchant_path, self)
   end
 
   def items
@@ -25,5 +25,9 @@ class SalesEngine
 
   def merchants
     @merchant_repository
+  end
+
+  def analyst
+    SalesAnalyst.new(self)
   end
 end

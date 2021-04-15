@@ -4,7 +4,8 @@ require 'csv'
 class ItemRepository
   attr_reader :items
 
-  def initialize(file_path)
+  def initialize(file_path, engine)
+    @engine = engine
     @items = create_items(file_path)
   end
 

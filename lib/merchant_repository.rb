@@ -4,9 +4,9 @@ require 'csv'
 class MerchantRepository
   attr_reader :merchants
 
-  def initialize(file_path)
+  def initialize(file_path, engine)
+    @engine = engine
     @merchants = create_merchants(file_path)
-    # parse_csv(file_path)
   end
 
   def create(attributes)
