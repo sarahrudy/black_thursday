@@ -13,7 +13,7 @@ class SalesEngine
     item_path = file_paths[:items]
     merchant_path = file_paths[:merchants]
     invoice_path = file_paths[:invoices]
-    invoice_item_path = file_paths[:invoice_item]
+    invoice_item_path = file_paths[:invoice_items]
 
 
     SalesEngine.new(item_path, merchant_path, invoice_path, invoice_item_path)
@@ -42,7 +42,7 @@ class SalesEngine
     @invoice_repository
   end
 
-  def invoice_item
+  def invoice_items
     @invoice_item_repository
   end
 end
