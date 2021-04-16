@@ -22,10 +22,10 @@ class CustomerRepository
       end
   end
 
-  # def all
-  #   @transactions
-  # end
-  #
+  def all
+    @customers
+  end
+
   # def find_by_id(id)
   #   @transactions.find do |data|
   #     data.id == id
