@@ -56,16 +56,16 @@ class TransactionRepository
   #   end
   # end
   #
-  # def update(id, attributes)
-  #   data = find_by_id(id)
-  #   return if !data
-  #   attributes.each do |key,value|
-  #     data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
-  #   end
-  #   data.updated_at = Time.now
-  #   data
-  # end
-  #
+  def update(id, attributes)
+    data = find_by_id(id)
+    return if !data
+    attributes.each do |key,value|
+      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    end
+    data.updated_at = Time.now
+    data
+  end
+
   # def delete(id)
   #   data = find_by_id(id)
   #   @invoices.delete(data)
