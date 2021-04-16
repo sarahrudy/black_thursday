@@ -17,13 +17,13 @@ RSpec.describe TransactionRepository do
     end
   end
 
-  # describe 'transaction repository methods' do
-  #   it 'can return an array of all known transaction instances'do
-  #     transaction_repository = @sales_engine.transactions
-  #
-  #     # look into a different way of wording our test.
-  #     expect(transaction_repository.all).to eq(transaction_repository.transactions)
-  #   end
-  #
-  # end
+  describe 'transaction repository methods' do
+    it 'can return an array of all known transaction instances'do
+      transaction_repository = @sales_engine.transactions
+
+      # look into a different way of wording our test.
+      expect(transaction_repository.all).to eq(transaction_repository.transactions)
+    end
+
+  end
 end
