@@ -53,5 +53,25 @@ RSpec.describe TransactionRepository do
 
       expect(transaction_repository.find_by_id(transaction_1.id)).to eq(transaction_1)
     end
+
+    it 'find all by invoice_id' do
+      transaction_repository = @sales_engine.transactions
+      transaction_1 = transaction_repository.create({
+                                            :customer_id  => 89101112,
+                                            :merchant_id  => 13141516,
+                                            :created_at   => Time.now.to_s,
+                                            :status       => 'pending',
+                                            :updated_at   => Time.now.to_s
+                                          })
+      transaction_2 = transaction_repository.create({
+                                            :customer_id  => 89101112,
+                                            :merchant_id  => 19876543,
+                                            :created_at   => Time.now.to_s,
+                                            :status       => 'shipped',
+                                            :updated_at   => Time.now.to_s
+                                          })
+
+      expect(transaction_repository.find_all_by_customer_id(transaction_1.customer_id)).to eq([transaction_1, transaction_2])
+    end
   end
 end
