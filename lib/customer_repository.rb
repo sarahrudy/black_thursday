@@ -32,10 +32,22 @@ class CustomerRepository
     end
   end
 
+  # def find_all_by_first_name(first_name)
+  #   @customers.find_all do |customer|
+  #     customer.first_name == first_name
+  #   end
+  # end
+
   def find_all_by_first_name(first_name)
-    @customers.find_all do |customer|
-      customer.first_name == first_name
+    # can refactor this to map enumerable
+    customers_array = []
+    @customers.each do |customer|
+      customer_downcase = customer.first_name.downcase
+      if customer_downcase.include?(first_name.downcase)
+        customers_array << customer
+      end
     end
+    customers_array
   end
 
   # def find_all_by_credit_card_number(credit_card_number)
