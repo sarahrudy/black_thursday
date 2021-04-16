@@ -38,5 +38,17 @@ RSpec.describe CustomerRepository do
 
       expect(expected.first_name).to eq("Zach")
     end
+
+    it 'find all by customer first name' do
+      customer_repository = @sales_engine.customers
+      customer_1 = customer_repository.create({
+                      :first_name => "Zach",
+                      :last_name  => "Green",
+                      :created_at => Time.now.to_s,
+                      :updated_at => Time.now.to_s
+                    })
+
+      expect(customer_repository.find_all_by_first_name(customer_1.first_name)).to eq([customer_1])
+    end
   end
 end
