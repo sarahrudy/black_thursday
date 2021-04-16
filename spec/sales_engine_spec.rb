@@ -2,6 +2,5 @@
 
 RSpec.describe SalesEngine do
   it 'should exist' do
-
   end
 end

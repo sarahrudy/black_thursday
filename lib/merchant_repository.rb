@@ -19,9 +19,9 @@ class MerchantRepository
 
   def create_merchants(file_path)
     csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
-      csv.map do |row|
-        Merchant.new(row)
-      end
+    csv.map do |row|
+      Merchant.new(row)
+    end
   end
 
   # helper method
@@ -33,7 +33,6 @@ class MerchantRepository
       end
     end
   end
-
 
   def all
     @merchants
@@ -60,9 +59,10 @@ class MerchantRepository
 
   def update(id, attributes)
     merchant = find_by_id(id)
-    return if !merchant
-    attributes.each do |key,value|
-      merchant.send("#{key.to_s}=", value) if merchant.respond_to?("#{key.to_s}=")
+    return unless merchant
+
+    attributes.each do |key, value|
+      merchant.send("#{key}=", value) if merchant.respond_to?("#{key}=")
     end
     merchant.updated_at = Time.now
     merchant
@@ -86,6 +86,6 @@ class MerchantRepository
   end
 
   def inspect
-  "#<#{self.class} #{@merchants.size} rows>"
-end
+    "#<#{self.class} #{@merchants.size} rows>"
+  end
 end

@@ -31,7 +31,8 @@ class Item
       Time.now
     end
   end
-  def update(id, attrs)
+
+  def update(_id, attrs)
     @name = attrs[:name] if attrs[:name]
   end
 end

@@ -1,5 +1,5 @@
-class Repository # super class
-
+# super class
+class Repository
   def initialize(data_objects)
     @data_objects = data_objects
   end
@@ -28,8 +28,8 @@ class Repository # super class
 
   def update(id, attributes)
     data = find_by_id(id)
-    attributes.each do |key,value|
-      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    attributes.each do |key, value|
+      data.send("#{key}=", value) if data.respond_to?("#{key}=")
     end
     data.updated_at = DateTime.now
     data
@@ -40,7 +40,7 @@ class Repository # super class
     @data_objects.delete(data)
   end
 
-private # can't be accessed with their instance after the class
+  private # can't be accessed with their instance after the class
 
   def find_last_id
     data_objects = @data_objects.sort_by do |data|

@@ -1,11 +1,10 @@
 require 'time'
 
 class Merchant
-  attr_reader :id,
-              :name,
-              :items
-  attr_writer :name,
-              :updated_at
+  attr_accessor :name
+  attr_reader :id, :items
+  attr_writer :updated_at
+
   def initialize(info)
     @id = info[:id].to_i
     @name = info[:name]
@@ -26,6 +25,4 @@ class Merchant
   def add_item(item)
     @items << item
   end
-
-
 end

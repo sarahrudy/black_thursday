@@ -23,7 +23,7 @@ class SalesAnalyst
   end
 
   def merchants_with_high_item_count
-    merchants = @engine.merchants.all.sort {|a,b| b.items.size <=> a.items.size}
+    merchants = @engine.merchants.all.sort { |a, b| b.items.size <=> a.items.size }
     cut_off = (merchants.size * 0.1).round
     short_list = merchants[0..cut_off]
     # average = average_items_per_merchant
@@ -40,7 +40,7 @@ class SalesAnalyst
 
   def average_item_price_for_merchant(merchant_id)
     merchant = @engine.merchants.find_by_id(merchant_id)
-    prices = merchant.items.map {|item| item.unit_price}
+    prices = merchant.items.map { |item| item.unit_price }
     BigDecimal(prices.sum / prices.size, 5).round(2)
   end
 
@@ -57,20 +57,18 @@ class SalesAnalyst
     BigDecimal((total_average.sum / total_average.size), 5).round(2)
   end
 
-  def golden_items
+  def golden_items; end
 
-  end
+  # helper method for average_items_per_merchant_standard_deviation
 
-# helper method for average_items_per_merchant_standard_deviation
-
-  def standard_deviation(sample_size) # an array
+  # an array
+  def standard_deviation(sample_size)
     total_number_of_elements = sample_size.size
-    mean = sample_size.sum/sample_size.size.to_r
+    mean = sample_size.sum / sample_size.size.to_r
     new_sample_size = sample_size.map do |ss|
       (ss - mean)**2
     end
-    s = new_sample_size.sum/(total_number_of_elements -1)
+    s = new_sample_size.sum / (total_number_of_elements - 1)
     Math.sqrt(s).round(2)
-
   end
 end

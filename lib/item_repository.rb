@@ -17,10 +17,10 @@ class ItemRepository
   end
 
   def create_items(file_path)
-     csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
-      csv.map do |row|
-        Item.new(row)
-      end
+    csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
+    csv.map do |row|
+      Item.new(row)
+    end
   end
 
   def find_all_with_description(description)
@@ -28,9 +28,7 @@ class ItemRepository
     item_array = []
     @items.each do |item|
       item_downcase = item.description.downcase
-      if item_downcase.include?(description.downcase)
-        item_array << item
-      end
+      item_array << item if item_downcase.include?(description.downcase)
     end
     item_array
   end
@@ -53,9 +51,10 @@ class ItemRepository
 
   def update(id, attributes)
     data = find_by_id(id)
-    return if !data
-    attributes.each do |key,value|
-      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    return unless data
+
+    attributes.each do |key, value|
+      data.send("#{key}=", value) if data.respond_to?("#{key}=")
     end
     data.updated_at = Time.now
     data
@@ -75,9 +74,7 @@ class ItemRepository
   end
 
   def find_all_by_price(price)
-    if !price.instance_of?(BigDecimal)
-      price = BigDecimal(price.to_i / 100.to_f, 4)
-    end
+    price = BigDecimal(price.to_i / 100.to_f, 5) unless price.instance_of?(BigDecimal)
     @items.find_all do |item|
       item.unit_price == price
     end
@@ -96,6 +93,6 @@ class ItemRepository
   end
 
   def inspect
-  "#<#{self.class} #{@items.size} rows>"
+    "#<#{self.class} #{@items.size} rows>"
   end
 end
