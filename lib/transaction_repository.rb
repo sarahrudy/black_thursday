@@ -44,12 +44,12 @@ class TransactionRepository
     end
   end
 
-  # def find_all_by_merchant_id(merchant_id)
-  #   @invoices.find_all do |invoice|
-  #     invoice.merchant_id == merchant_id
-  #   end
-  # end
-  #
+  def find_all_by_result(result)
+    @transactions.find_all do |transaction|
+      transaction.result == result
+    end
+  end
+
   # def find_all_by_status(status)
   #   @invoices.find_all do |invoice|
   #     invoice.status == status
