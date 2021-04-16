@@ -74,11 +74,15 @@ class MerchantRepository
   end
 
   def find_last_id
-    @merchants = @merchants.sort_by do |merchant|
+    merchants = @merchants.sort_by do |merchant|
       merchant.id.to_i
     end
-    merchant = @merchants.last
-    merchant.id
+    merchant = merchants.last
+    if merchant
+      merchant.id
+    else
+      0
+    end
   end
 
   def inspect

@@ -41,11 +41,20 @@ class SalesAnalyst
   def average_item_price_for_merchant(merchant_id)
     merchant = @engine.merchants.find_by_id(merchant_id)
     prices = merchant.items.map {|item| item.unit_price}
-    prices.sum / prices.size
+    BigDecimal(prices.sum / prices.size, 5).round(2)
   end
 
   def average_average_price_per_merchant
-
+    merchants = @engine.merchants.all
+    total_average = []
+    merchants.each do |merchant|
+      item_prices = []
+      merchant.items.each do |item|
+        item_prices << item.unit_price
+      end
+      total_average << item_prices.sum / item_prices.size
+    end
+    BigDecimal((total_average.sum / total_average.size), 5).round(2)
   end
 
   def golden_items
@@ -56,11 +65,11 @@ class SalesAnalyst
 
   def standard_deviation(sample_size) # an array
     total_number_of_elements = sample_size.size
-    mean = sample_size.sum/sample_size.size
+    mean = sample_size.sum/sample_size.size.to_r
     new_sample_size = sample_size.map do |ss|
       (ss - mean)**2
     end
-    s = new_sample_size.sum/total_number_of_elements -1
+    s = new_sample_size.sum/(total_number_of_elements -1)
     Math.sqrt(s).round(2)
 
   end
