@@ -32,12 +32,6 @@ class CustomerRepository
     end
   end
 
-  # def find_all_by_first_name(first_name)
-  #   @customers.find_all do |customer|
-  #     customer.first_name == first_name
-  #   end
-  # end
-
   def find_all_by_first_name(first_name)
     @customers.find_all do |customer|
       customer_downcase = customer.first_name.downcase
@@ -52,33 +46,21 @@ class CustomerRepository
     end
   end
 
-  # def find_all_by_credit_card_number(credit_card_number)
-  #   @transactions.find_all do |transaction|
-  #     transaction.credit_card_number == credit_card_number
-  #   end
-  # end
-  #
-  # def find_all_by_result(result)
-  #   @transactions.find_all do |transaction|
-  #     transaction.result == result
-  #   end
-  # end
-  #
-  # def update(id, attributes)
-  #   data = find_by_id(id)
-  #   return if !data
-  #   attributes.each do |key,value|
-  #     data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
-  #   end
-  #   data.updated_at = Time.now
-  #   data
-  # end
-  #
-  # def delete(id)
-  #   data = find_by_id(id)
-  #   @transactions.delete(data)
-  # end
-  #
+  def update(id, attributes)
+    data = find_by_id(id)
+    return if !data
+    attributes.each do |key,value|
+      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    end
+    data.updated_at = Time.now
+    data
+  end
+
+  def delete(id)
+    data = find_by_id(id)
+    @customers.delete(data)
+  end
+
   def find_last_id
     @customers = @customers.sort_by do |data|
       data.id.to_i
@@ -87,7 +69,7 @@ class CustomerRepository
     data.id
   end
 
-  # def inspect
-  # "#<#{self.class} #{@items.size} rows>"
-  # end
+  def inspect
+  "#<#{self.class} #{@items.size} rows>"
+  end
 end
