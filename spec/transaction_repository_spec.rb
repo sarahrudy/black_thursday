@@ -119,5 +119,25 @@ RSpec.describe TransactionRepository do
 
       expect(transaction_repository.find_all_by_result(transaction_2.result).size).to eq(828)
     end
+
+    it 'can update a transaction' do
+      transaction_repository = @sales_engine.transactions
+      transaction_1 = transaction_repository.create({
+                      :invoice_id                   => 8901011,
+                      :credit_card_number           => '1234567890123456',
+                      :credit_card_expiration_date  => '1221',
+                      :result                       => 'success',
+                      :created_at                   => Time.now.to_s,
+                      :updated_at                   => Time.now.to_s
+                    })
+
+      attributes = {
+                      credit_card_number: '9876543210123456',
+                      credit_card_expiration_date: '1222'
+                    }
+      expected = transaction_repository.update(transaction_1.id, attributes)
+
+      expect(expected.credit_card_number).to eq('9876543210123456')
+    end
   end
 end
