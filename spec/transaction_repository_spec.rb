@@ -25,5 +25,19 @@ RSpec.describe TransactionRepository do
       expect(transaction_repository.all).to eq(transaction_repository.transactions)
     end
 
+    it 'create transaction' do
+      transaction_repository = @sales_engine.transactions
+      transaction_1 = transaction_repository.create({
+                      :id                           => 1234567,
+                      :invoice_id                   => 8901011,
+                      :credit_card_number           => '1234567890123456',
+                      :credit_card_expiration_date  => '1221',
+                      :result                       => 'success',
+                      :created_at                   => Time.now.to_s,
+                      :updated_at                   => Time.now.to_s
+                    })
+
+      expect(transaction_1).to be_instance_of(Transaction)
+    end
   end
 end
