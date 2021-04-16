@@ -38,12 +38,12 @@ class TransactionRepository
     end
   end
 
-  # def find_all_by_customer_id(customer_id)
-  #   @invoices.find_all do |invoice|
-  #     invoice.customer_id == customer_id
-  #   end
-  # end
-  #
+  def find_all_by_credit_card_number(credit_card_number)
+    @transactions.find_all do |transaction|
+      transaction.credit_card_number == credit_card_number
+    end
+  end
+
   # def find_all_by_merchant_id(merchant_id)
   #   @invoices.find_all do |invoice|
   #     invoice.merchant_id == merchant_id
