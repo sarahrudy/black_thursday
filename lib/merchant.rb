@@ -2,7 +2,8 @@ require 'time'
 
 class Merchant
   attr_reader :id,
-              :name
+              :name,
+              :items
   attr_writer :name,
               :updated_at
   def initialize(info)
@@ -10,6 +11,7 @@ class Merchant
     @name = info[:name]
     @created_at = set_time(info[:created_at])
     @updated_at = set_time(info[:updated_at])
+    @items = []
   end
   # Add create method here
 
@@ -20,5 +22,10 @@ class Merchant
       Time.now
     end
   end
+
+  def add_item(item)
+    @items << item
+  end
+
 
 end

@@ -3,23 +3,39 @@ class SalesAnalyst
     @engine = engine
   end
 
-  def average_items_per_merchant
+  def items_per_merchant
     merchants = @engine.merchants
     items = @engine.items
-    arr = []
 
-    merchants.all.each do |merchant|
-      arr << items.find_all_by_merchant_id(merchant.id).size
+    merchants.all.map do |merchant|
+      items.find_all_by_merchant_id(merchant.id).size
     end
-    (arr.sum / arr.size.to_f).round(2)
+  end
+
+  def average_items_per_merchant
+    ipm = items_per_merchant
+    (ipm.sum / ipm.size.to_f).round(2)
   end
 
   def average_items_per_merchant_standard_deviation
-
+    ipm = items_per_merchant
+    standard_deviation(ipm)
   end
 
   def merchants_with_high_item_count
+    merchants = @engine.merchants.all.sort {|a,b| b.items.size <=> a.items.size}
+    cut_off = (merchants.size * 0.1).round
+    short_list = merchants[0..cut_off]
+    # average = average_items_per_merchant
+    # merchants_filtered = @engine.merchants.all.select do |merchant|
+    #   merchant.items.size > average
+    # end
 
+    w = short_list.find_all do |merchant|
+      # require "pry"; binding.pry
+      merchant.items.size > (average_items_per_merchant + average_items_per_merchant_standard_deviation)
+    end
+    # require "pry"; binding.pry
   end
 
   def average_item_price_for_merchant(merchant_id)
@@ -31,6 +47,19 @@ class SalesAnalyst
   end
 
   def golden_items
+
+  end
+
+# helper method for average_items_per_merchant_standard_deviation
+
+  def standard_deviation(sample_size) # an array
+    total_number_of_elements = sample_size.size
+    mean = sample_size.sum/sample_size.size
+    new_sample_size = sample_size.map do |ss|
+      (ss - mean)**2
+    end
+    s = new_sample_size.sum/total_number_of_elements -1
+    Math.sqrt(s).round(2)
 
   end
 end

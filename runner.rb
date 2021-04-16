@@ -5,8 +5,7 @@ require './lib/merchant'
 require './lib/merchant_repository'
 
 
-se = SalesEngine.new
-se.from_csv({
+se = SalesEngine.from_csv({
                         :merchants => './data/merchants.csv',
                         :items => './data/items.csv'
                      })

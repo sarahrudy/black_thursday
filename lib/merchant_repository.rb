@@ -7,6 +7,7 @@ class MerchantRepository
   def initialize(file_path, engine)
     @engine = engine
     @merchants = create_merchants(file_path)
+    populate_merchant_items
   end
 
   def create(attributes)
@@ -22,6 +23,17 @@ class MerchantRepository
         Merchant.new(row)
       end
   end
+
+  # helper method
+  def populate_merchant_items
+    items = @engine.items.all
+    @merchants.each do |merchant|
+      items.each do |item|
+        merchant.add_item(item) if merchant.id == item.merchant_id
+      end
+    end
+  end
+
 
   def all
     @merchants
