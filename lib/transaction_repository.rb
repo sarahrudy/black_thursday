@@ -50,12 +50,6 @@ class TransactionRepository
     end
   end
 
-  # def find_all_by_status(status)
-  #   @invoices.find_all do |invoice|
-  #     invoice.status == status
-  #   end
-  # end
-  #
   def update(id, attributes)
     data = find_by_id(id)
     return if !data
@@ -66,10 +60,10 @@ class TransactionRepository
     data
   end
 
-  # def delete(id)
-  #   data = find_by_id(id)
-  #   @invoices.delete(data)
-  # end
+  def delete(id)
+    data = find_by_id(id)
+    @transactions.delete(data)
+  end
 
   def find_last_id
     @transactions = @transactions.sort_by do |data|
