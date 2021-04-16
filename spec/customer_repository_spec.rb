@@ -23,8 +23,20 @@ RSpec.describe CustomerRepository do
       customer_repository = @sales_engine.customers
 
       # look into a different way of wording our test.
-      expect(customer_repository.all).to eq(customer_repository.customers)
+      expect(customer_repository.all.size).to eq(1000)
     end
 
+    it 'create customer' do
+      customer_repository = @sales_engine.customers
+      customer_1 = customer_repository.create({
+                      :first_name => "Zach",
+                      :last_name  => "Green",
+                      :created_at => Time.now.to_s,
+                      :updated_at => Time.now.to_s
+                    })
+      expected = customer_repository.find_by_id(1001)
+
+      expect(expected.first_name).to eq("Zach")
+    end
   end
 end
