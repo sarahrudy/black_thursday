@@ -74,5 +74,33 @@ RSpec.describe CustomerRepository do
 
       expect(customer_repository.find_all_by_last_name("Rando")).to eq([customer_1, customer_2])
     end
+
+    it 'can update a customer' do
+      customer_repository = @sales_engine.customers
+      customer_1 = customer_repository.create({
+                      :first_name => "Zach",
+                      :last_name  => "Green",
+                      :created_at => Time.now.to_s,
+                      :updated_at => Time.now.to_s
+                    })
+
+      attributes = { first_name: "Zachary" }
+      expected = customer_repository.update(customer_1.id, attributes)
+
+      expect(expected.first_name).to eq("Zachary")
+    end
+
+    it 'can delete a customer' do
+      customer_repository = @sales_engine.customers
+      customer_1 = customer_repository.create({
+                      :first_name => "Zach",
+                      :last_name  => "Green",
+                      :created_at => Time.now.to_s,
+                      :updated_at => Time.now.to_s
+                    })
+
+      expect(customer_repository.delete(customer_1.id)).to eq(customer_1)
+      expect(customer_repository.find_by_id(customer_1.id)).to eq(nil)
+    end
   end
 end
