@@ -16,7 +16,7 @@ RSpec.describe SalesAnalyst do
   end
 
    describe 'instance methods' do
-    it '#average_items_per_merchant' do
+     it '#average_items_per_merchant' do
      sales_analyst = @sales_engine.analyst
 
      expect(sales_analyst.average_items_per_merchant).to eq(2.88)
