@@ -39,27 +39,17 @@ class CustomerRepository
   # end
 
   def find_all_by_first_name(first_name)
-    # can refactor this to map enumerable
-    customers_array = []
-    @customers.each do |customer|
+    @customers.find_all do |customer|
       customer_downcase = customer.first_name.downcase
-      if customer_downcase.include?(first_name.downcase)
-        customers_array << customer
-      end
+      customer_downcase.include?(first_name.downcase)
     end
-    customers_array
   end
 
   def find_all_by_last_name(last_name)
-    # can refactor this to map enumerable
-    customers_array = []
-    @customers.each do |customer|
+    @customers.find_all do |customer|
       customer_downcase = customer.last_name.downcase
-      if customer_downcase.include?(last_name.downcase)
-        customers_array << customer
-      end
+      customer_downcase.include?(last_name.downcase)
     end
-    customers_array
   end
 
   # def find_all_by_credit_card_number(credit_card_number)
