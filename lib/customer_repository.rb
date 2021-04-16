@@ -8,13 +8,13 @@ class CustomerRepository
     @customers = create_customers(file_path)
   end
 
-  # def create(attributes)
-  #   attributes[:id] = find_last_id.to_i + 1
-  #   customer = Customer.new(attributes)
-  #   @customers << customer
-  #   customer  # returning instance of the customer
-  # end
-  #
+  def create(attributes)
+    attributes[:id] = find_last_id.to_i + 1
+    customer = Customer.new(attributes)
+    @customers << customer
+    customer  # returning instance of the customer
+  end
+
   def create_customers(file_path)
      csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
       csv.map do |row|
@@ -26,12 +26,12 @@ class CustomerRepository
     @customers
   end
 
-  # def find_by_id(id)
-  #   @transactions.find do |data|
-  #     data.id == id
-  #   end
-  # end
-  #
+  def find_by_id(id)
+    @customers.find do |data|
+      data.id == id
+    end
+  end
+
   # def find_all_by_invoice_id(invoice_id)
   #   @transactions.find_all do |transaction|
   #     transaction.invoice_id == invoice_id
@@ -65,14 +65,14 @@ class CustomerRepository
   #   @transactions.delete(data)
   # end
   #
-  # def find_last_id
-  #   @customers = @customers.sort_by do |data|
-  #     data.id.to_i
-  #   end
-  #   data = @customers.last
-  #   data.id
-  # end
-  #
+  def find_last_id
+    @customers = @customers.sort_by do |data|
+      data.id.to_i
+    end
+    data = @customers.last
+    data.id
+  end
+
   # def inspect
   # "#<#{self.class} #{@items.size} rows>"
   # end
