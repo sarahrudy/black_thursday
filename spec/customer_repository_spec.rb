@@ -17,4 +17,14 @@ RSpec.describe CustomerRepository do
       expect(customer_repository).to be_instance_of(CustomerRepository)
     end
   end
+
+  describe 'customer repository methods' do
+    it 'can return an array of all known customer instances'do
+      customer_repository = @sales_engine.customers
+
+      # look into a different way of wording our test.
+      expect(customer_repository.all).to eq(customer_repository.customers)
+    end
+
+  end
 end
