@@ -7,6 +7,8 @@ RSpec.describe InvoiceItemRepository do
                             merchants: './data/merchants.csv',
                             invoices: './data/invoices.csv',
                             invoice_items: './data/invoice_items.csv',
+                            transactions: './data/transactions.csv',
+                            customers: './data/customers.csv',
                          })
   end
 
@@ -29,7 +31,6 @@ RSpec.describe InvoiceItemRepository do
     it 'create invoice' do
       invoice_item_repository = @sales_engine.invoice_items
       invoice_item_1 = invoice_item_repository.create({
-                                                      :id           => 1234567,
                                                       :item_id  => 89101112,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -44,7 +45,6 @@ RSpec.describe InvoiceItemRepository do
     it 'finds invoice item by id' do
       invoice_item_repository = @sales_engine.invoice_items
       invoice_item_1 = invoice_item_repository.create({
-                                                      :id           => 1234567,
                                                       :item_id  => 89101112,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -52,7 +52,7 @@ RSpec.describe InvoiceItemRepository do
                                                       :unit_price       => BigDecimal(10.99,4),
                                                       :updated_at   => Time.now.to_s
                                                       })
-      
+
 
       expect(invoice_item_repository.find_by_id(invoice_item_1.id)).to eq(invoice_item_1)
     end
@@ -60,7 +60,6 @@ RSpec.describe InvoiceItemRepository do
     it 'finds all invoice item by item id' do
       invoice_item_repository = @sales_engine.invoice_items
       invoice_item_1 = invoice_item_repository.create({
-                                                      :id           => 1234567,
                                                       :item_id  => 89101112,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -70,7 +69,6 @@ RSpec.describe InvoiceItemRepository do
                                                       })
 
       invoice_item_2 = invoice_item_repository.create({
-                                                      :id           => 89101112,
                                                       :item_id  => 456,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -85,7 +83,6 @@ RSpec.describe InvoiceItemRepository do
     it 'finds all invoice item by invoice id' do
       invoice_item_repository = @sales_engine.invoice_items
       invoice_item_1 = invoice_item_repository.create({
-                                                      :id           => 1234567,
                                                       :item_id  => 89101112,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -95,7 +92,6 @@ RSpec.describe InvoiceItemRepository do
                                                       })
 
       invoice_item_2 = invoice_item_repository.create({
-                                                      :id           => 89101112,
                                                       :item_id  => 456,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -110,7 +106,6 @@ RSpec.describe InvoiceItemRepository do
     it 'can update an invoice item' do
       invoice_item_repository = @sales_engine.invoice_items
       invoice_item_1 = invoice_item_repository.create({
-                                                      :id           => 1234567,
                                                       :item_id  => 89101112,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -120,7 +115,6 @@ RSpec.describe InvoiceItemRepository do
                                                       })
 
       invoice_item_2 = invoice_item_repository.create({
-                                                      :id           => 89101112,
                                                       :item_id  => 456,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -138,7 +132,6 @@ RSpec.describe InvoiceItemRepository do
     it 'can delete invoice item' do
       invoice_item_repository = @sales_engine.invoice_items
       invoice_item_1 = invoice_item_repository.create({
-                                                      :id           => 1234567,
                                                       :item_id  => 89101112,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -148,7 +141,6 @@ RSpec.describe InvoiceItemRepository do
                                                       })
 
       invoice_item_2 = invoice_item_repository.create({
-                                                      :id           => 89101112,
                                                       :item_id  => 456,
                                                       :invoice_id  => 13141516,
                                                       :created_at   => Time.now.to_s,
@@ -158,6 +150,7 @@ RSpec.describe InvoiceItemRepository do
                                                       })
 
       expect(invoice_item_repository.delete(invoice_item_1.id)).to eq(invoice_item_1)
+      expect(invoice_item_repository.find_by_id(invoice_item_1.id)).to eq(nil)
     end
   end
 end

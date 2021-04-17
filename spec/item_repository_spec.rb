@@ -7,6 +7,8 @@ RSpec.describe ItemRepository do
                             merchants: './data/merchants.csv',
                             invoices: './data/invoices.csv',
                             invoice_items: './data/invoice_items.csv',
+                            transactions: './data/transactions.csv',
+                            customers: './data/customers.csv',
                          })
   end
   describe 'instantiation' do
@@ -142,6 +144,7 @@ RSpec.describe ItemRepository do
                                     })
 
       expect(item_repository.delete(item_1.id)).to eq(item_1)
+      expect(item_repository.find_by_id(item_1.id)).to eq(nil)
     end
   end
 
