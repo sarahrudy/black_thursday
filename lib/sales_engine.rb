@@ -11,6 +11,7 @@ class SalesEngine
               :transaction_path,
               :customer_path
 
+
   def self.from_csv(file_paths)
     item_path = file_paths[:items]
     merchant_path = file_paths[:merchants]
@@ -22,11 +23,13 @@ class SalesEngine
   end
 
   def initialize(item_path, merchant_path, invoice_path, transaction_path, customer_path)
+
     @item_path = item_path
     @merchant_path = merchant_path
     @invoice_path = invoice_path
     @transaction_path = transaction_path
     @customer_path = customer_path
+
     @item_repository = ItemRepository.new(@item_path)
     @merchant_repository = MerchantRepository.new(@merchant_path)
     @invoice_repository = InvoiceRepository.new(@invoice_path)
