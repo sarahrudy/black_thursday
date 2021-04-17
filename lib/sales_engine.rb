@@ -10,7 +10,7 @@ class SalesEngine
   attr_reader :item_path,
               :merchant_path,
               :invoice_path,
-              :invoice_item_path
+              :invoice_item_path,
               :transaction_path,
               :customer_path
 
@@ -51,7 +51,7 @@ class SalesEngine
   def invoices
     @invoice_repository
   end
-  
+
   def invoice_items
     @invoice_item_repository
   end

@@ -7,6 +7,8 @@ RSpec.describe MerchantRepository do
                             merchants: './data/merchants.csv',
                             invoices: './data/invoices.csv',
                             invoice_items: './data/invoice_items.csv',
+                            transactions: './data/transactions.csv',
+                            customers: './data/customers.csv',
                          })
   end
   describe 'instantiation' do
@@ -71,6 +73,7 @@ RSpec.describe MerchantRepository do
                                               })
 
       expect(@sales_engine.merchants.delete(merchant_1.id)).to eq(merchant_1)
+      expect(@sales_engine.merchants.find_by_id(merchant_1.id)).to eq(nil)
     end
 
     it 'can update a merchant' do
