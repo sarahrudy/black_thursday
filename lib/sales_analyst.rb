@@ -71,4 +71,34 @@ class SalesAnalyst
     s = new_sample_size.sum / (total_number_of_elements - 1)
     Math.sqrt(s).round(2)
   end
+
+  def invoices_per_merchant
+    merchants = @engine.merchants
+    invoices = @engine.invoices
+
+    merchants.all.map do |merchant|
+      invoices.find_all_by_merchant_id(merchant.id).size
+    end
+  end
+
+  # def invoices_count_per_merchant
+  #   invoices_per_merchant.size
+  # end
+
+  def average_invoices_per_merchant
+    (invoices_per_merchant.sum / invoices_per_merchant.size.to_f).round(2)
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    standard_deviation(invoices_per_merchant)
+  end
+
+  # def top_merchants_by_invoice_count
+  #   two_deviations = average_invoices_per_merchant_standard_deviation +
+  #     (average_items_per_merchant * 2)
+  #   find_merchants = invoices_count_per_merchant.find_all do |count|
+  #     @engine.merchants if count > two_deviations
+  #   end
+  #   find_merchants
+  # end
 end
