@@ -3,8 +3,12 @@ require_relative 'spec_helper'
 RSpec.describe SalesAnalyst do
   before(:each) do
     @sales_engine = SalesEngine.from_csv({
-                                           items: './data/items.csv',
-                                           merchants: './data/merchants.csv'
+                            items: './data/items.csv',
+                            merchants: './data/merchants.csv',
+                            invoices: './data/invoices.csv',
+                            invoice_items: './data/invoice_items.csv',
+                            transactions: './data/transactions.csv',
+                            customers: './data/customers.csv',
                                          })
   end
   describe 'instantiation' do
@@ -33,6 +37,7 @@ RSpec.describe SalesAnalyst do
 
       expect(sales_analyst.merchants_with_high_item_count.size).to eq(49)
     end
+
     it '#average_item_price_for_merchant' do
       sales_analyst = @sales_engine.analyst
       merchant = @sales_engine.merchants.create({ name: 'Zachs Store' })
@@ -92,6 +97,26 @@ RSpec.describe SalesAnalyst do
       average = BigDecimal((average.sum / average.size).round(2), 5)
 
       expect(sales_analyst.average_average_price_per_merchant).to eq(average)
+    end
+  end
+
+  describe 'business intelligence on invoices' do
+    it '#average_invoices_per_merchant' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.average_invoices_per_merchant).to eq(10.49)
+    end
+
+    it '#average_invoices_per_merchant_standard_deviation' do
+      sales_analyst = @sales_engine.analyst
+      # come back to make sure it's ok to use 3.16
+      expect(sales_analyst.average_invoices_per_merchant_standard_deviation).to eq(3.29)
+    end
+
+    it '#top_merchants_by_invoice_count' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.top_merchants_by_invoice_count).to eq([])
     end
   end
 end
