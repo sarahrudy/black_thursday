@@ -24,7 +24,7 @@ class SalesAnalyst
 
   def merchants_with_high_item_count
     merchants = @engine.merchants.all.sort { |a, b| b.items.size <=> a.items.size }
-    cut_off = (merchants.size * 0.1).round
+    cut_off = (merchants.size * 0.5).round
     short_list = merchants[0..cut_off]
     # average = average_items_per_merchant
     # merchants_filtered = @engine.merchants.all.select do |merchant|
@@ -48,19 +48,34 @@ class SalesAnalyst
     merchants = @engine.merchants.all
     total_average = []
     merchants.each do |merchant|
-      item_prices = []
-      merchant.items.each do |item|
-        item_prices << item.unit_price
-      end
-      total_average << item_prices.sum / item_prices.size
+      total_average << average_item_price_for_merchant(merchant.id)
     end
-    BigDecimal((total_average.sum / total_average.size), 5).round(2)
+    BigDecimal(total_average.sum / merchants.size, 5).round(2)
+  end
+  #     item_prices = []
+  #     merchant.items.each do |item|
+  #       item_prices << item.unit_price
+  #     end
+  #     total_average << item_prices.sum / item_prices.size
+  #   end
+  #   BigDecimal((total_average.sum / total_average.size), 5).round(2)
+  # end
+
+  # any item that is two standard deviations above the standard
+  def golden_items
+    item_price = @engine.items.all.map do |item|
+      item.unit_price
+    end
+    golden = average(item_price) + (standard_deviation(item_price) * 2)
+      @engine.items.all.find_all do |item|
+        item.unit_price > golden
+      end
   end
 
-  def golden_items; end
-
+  def average(array)
+    array.sum / array.size
+  end
   # helper method for average_items_per_merchant_standard_deviation
-
   # an array
   def standard_deviation(sample_size)
     total_number_of_elements = sample_size.size
@@ -72,6 +87,7 @@ class SalesAnalyst
     Math.sqrt(s).round(2)
   end
 
+ # gives you the invoice object
   def invoices_per_merchant
     merchants = @engine.merchants
     invoices = @engine.invoices

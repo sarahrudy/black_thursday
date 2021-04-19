@@ -99,6 +99,12 @@ RSpec.describe SalesAnalyst do
 
       expect(sales_analyst.average_average_price_per_merchant).to eq(average)
     end
+
+    it '#golden_items' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.golden_items.size).to eq(5)
+    end
   end
 
   describe 'business intelligence on invoices' do
@@ -114,10 +120,11 @@ RSpec.describe SalesAnalyst do
       expect(sales_analyst.average_invoices_per_merchant_standard_deviation).to eq(3.29)
     end
 
-    it '#top_merchants_by_invoice_count' do
+    xit '#top_merchants_by_invoice_count' do
       sales_analyst = @sales_engine.analyst
 
       expect(sales_analyst.top_merchants_by_invoice_count).to eq([])
     end
+
   end
 end

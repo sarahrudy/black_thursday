@@ -4,8 +4,9 @@ require 'csv'
 class CustomerRepository
   attr_reader :customers
 
-  def initialize(file_path)
+  def initialize(file_path, engine)
     @customers = create_customers(file_path)
+    @engine = engine
   end
 
   def create(attributes)

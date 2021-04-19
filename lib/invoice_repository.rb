@@ -4,8 +4,9 @@ require 'csv'
 class InvoiceRepository
   attr_reader :invoices
 
-  def initialize(file_path)
+  def initialize(file_path, engine)
     @invoices = create_invoices(file_path)
+    @engine = engine 
   end
 
   def create(attributes)

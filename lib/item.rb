@@ -24,6 +24,7 @@ class Item
     @unit_price.to_f
   end
 
+  # if time is something, then we parse it, if not, we create it
   def set_time(time)
     if time
       Time.parse(time)

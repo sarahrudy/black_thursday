@@ -1,11 +1,12 @@
 require_relative 'transaction'
 require 'csv'
 
-class TransactionRepository
+class TransactionRepository 
   attr_reader :transactions
 
-  def initialize(file_path)
+  def initialize(file_path, engine)
     @transactions = create_transactions(file_path)
+    @engine = engine
   end
 
   def create(attributes)
