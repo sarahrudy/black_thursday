@@ -34,19 +34,19 @@ RSpec.describe MerchantRepository do
     end
 
     it 'find by name' do
-      merchant_1 = @sales_engine.merchants.create(attributes_for(:merchant))
+      merchant_1 = @sales_engine.merchants.create({name: "Room 4's Shop"})
 
       expect(@sales_engine.merchants.find_by_name(merchant_1.name)).to eq(merchant_1)
     end
 
     it 'find all by name' do
-      merchant_1 = @sales_engine.merchants.create(attributes_for(:merchant))
+      merchant_1 = @sales_engine.merchants.create({name: "Room 4's Shop"})
 
       expect(@sales_engine.merchants.find_all_by_name(merchant_1.name)).to eq([merchant_1])
     end
 
     it 'can delete a merchant' do
-      merchant_1 = @sales_engine.merchants.create(attributes_for(:merchant))
+      merchant_1 = @sales_engine.merchants.create({name: "Room 4's Shop"})
 
       expect(@sales_engine.merchants.delete(merchant_1.id)).to eq(merchant_1)
       expect(@sales_engine.merchants.all).not_to include(merchant_1)
@@ -54,7 +54,7 @@ RSpec.describe MerchantRepository do
     end
 
     it 'can update a merchant' do
-      merchant_1 = @sales_engine.merchants.create(attributes_for(:merchant))
+      merchant_1 = @sales_engine.merchants.create({name: "Room 4's Shop"})
 
       attributes = { name: 'Bobs store' }
       expected = @sales_engine.merchants.update(merchant_1.id, attributes)

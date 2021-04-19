@@ -33,10 +33,10 @@ RSpec.describe SalesAnalyst do
       expect(sales_analyst.average_items_per_merchant_standard_deviation).to eq(3.26)
     end
 
-    xit '#merchants_with_high_item_count' do
+    it '#merchants_with_high_item_count' do
       sales_analyst = @sales_engine.analyst
 
-      expect(sales_analyst.merchants_with_high_item_count.size).to eq(49)
+      expect(sales_analyst.merchants_with_high_item_count.size).to eq(52)
     end
 
     it '#average_item_price_for_merchant' do
@@ -95,7 +95,8 @@ RSpec.describe SalesAnalyst do
       average_prices.each do |_, v|
         average << v
       end
-      average = BigDecimal((average.sum / average.size).round(2), 5)
+
+      average = BigDecimal((average.sum / average.size), 5).round(2)
 
       expect(sales_analyst.average_average_price_per_merchant).to eq(average)
     end
@@ -120,11 +121,30 @@ RSpec.describe SalesAnalyst do
       expect(sales_analyst.average_invoices_per_merchant_standard_deviation).to eq(3.29)
     end
 
-    xit '#top_merchants_by_invoice_count' do
+    it '#top_merchants_by_invoice_count' do
       sales_analyst = @sales_engine.analyst
 
-      expect(sales_analyst.top_merchants_by_invoice_count).to eq([])
+      expect(sales_analyst.top_merchants_by_invoice_count.size).to eq(12)
     end
 
+    it '#bottom_merchants_by_invoice_count' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.bottom_merchants_by_invoice_count.size).to eq(4)
+    end
+
+    it '#top_days_by_invoice_count' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.top_days_by_invoice_count).to eq(['Wednesday'])
+    end
+
+    it '#invoice_status' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.invoice_status(:pending)).to eq(29.55)
+      expect(sales_analyst.invoice_status(:shipped)).to eq(56.95)
+      expect(sales_analyst.invoice_status(:returned)).to eq(13.5)
+    end
   end
 end

@@ -1,4 +1,4 @@
-require './spec/spec_helper'
+require 'spec_helper'
 
 RSpec.describe Merchant do
   describe 'instantiation' do

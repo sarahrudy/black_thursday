@@ -13,7 +13,7 @@ class Invoice
     @customer_id = customer_id.to_i
     @merchant_id = merchant_id.to_i
     @created_at = Time.parse(created_at.to_s)
-    @status = status
+    @status = status.to_sym
     @updated_at = Time.parse(updated_at.to_s)
   end
 end
