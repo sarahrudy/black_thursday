@@ -165,4 +165,26 @@ class SalesAnalyst
     ((invoices.find_all_by_status(status).size / invoices.all.size.to_f) * 100).round(2)
   end
 
+  def invoice_paid_in_full?(invoice_id)
+    # return true if transaction result is success
+    transactions = @engine.transactions.find_all_by_invoice_id(invoice_id)
+    return false if transactions.empty?
+    transactions.all? do |transaction|
+      if transaction.result == 'success'
+        return true
+      else
+        false
+      end 
+    end
+  end
+
+  def invoice_total(invoice_id)
+    invoice_items_repo = @engine.invoice_items
+    invoice_item = invoice_items_repo.find_all_by_invoice_id(invoice_id)
+    total_amount = invoice_item.sum do |item|
+      item.quantity * item.unit_price
+    end
+    total_amount
+  end
+
 end
