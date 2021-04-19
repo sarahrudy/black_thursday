@@ -63,4 +63,8 @@ class SalesEngine
   def customers
     @customer_repository
   end
+
+  def analyst
+    SalesAnalyst.new(self)
+  end
 end
