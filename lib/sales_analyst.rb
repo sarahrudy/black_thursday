@@ -30,9 +30,8 @@ class SalesAnalyst
     # merchants_filtered = @engine.merchants.all.select do |merchant|
     #   merchant.items.size > average
     # end
-    # 
+    #
     average_item_sd_height = average_items_per_merchant + average_items_per_merchant_standard_deviation
-    
 
     short_list.find_all do |merchant|
       merchant.items.size > average_item_sd_height
@@ -43,6 +42,7 @@ class SalesAnalyst
     merchant = @engine.merchants.find_by_id(merchant_id)
     prices = merchant.items.map { |item| item.unit_price }
     return 0 if prices.size == 0
+
     BigDecimal(prices.sum / prices.size, 5).round(2)
   end
 
@@ -61,14 +61,15 @@ class SalesAnalyst
       item.unit_price
     end
     golden = average(item_price) + (standard_deviation(item_price) * 2)
-      @engine.items.all.find_all do |item|
-        item.unit_price > golden
-      end
+    @engine.items.all.find_all do |item|
+      item.unit_price > golden
+    end
   end
 
   def average(array)
     array.sum / array.size
   end
+
   # helper method for average_items_per_merchant_standard_deviation
   # an array
   def standard_deviation(sample_size)
@@ -81,7 +82,7 @@ class SalesAnalyst
     Math.sqrt(s).round(2)
   end
 
- # gives you the invoice object
+  # gives you the invoice object
   def invoices_per_merchant
     merchants = @engine.merchants
     invoices = @engine.invoices
@@ -123,7 +124,8 @@ class SalesAnalyst
   end
 
   def top_days_by_invoice_count
-    dow = {0 => 'Sunday', 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday'}
+    dow = { 0 => 'Sunday', 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday',
+            6 => 'Saturday' }
     # days with highest number of sales by invoice count
     invoice_repo = @engine.invoices
     average_per_day = invoice_repo.all.size / 7
@@ -133,11 +135,9 @@ class SalesAnalyst
       d = invoice.created_at.wday
       grouped_invoices[dow[d]] += 1
     end
-     golden = average_per_day + standard_deviation(grouped_invoices.values)
+    golden = average_per_day + standard_deviation(grouped_invoices.values)
     grouped_invoices.find_all do |wday, invoice_count|
-      if invoice_count < golden
-        grouped_invoices.delete(wday)
-      end
+      grouped_invoices.delete(wday) if invoice_count < golden
     end
     grouped_invoices.keys
   end
@@ -151,6 +151,7 @@ class SalesAnalyst
     # return true if transaction result is success
     transactions = @engine.transactions.find_all_by_invoice_id(invoice_id)
     return false if transactions.empty?
+
     # require "pry"; binding.pry
     transactions.all? do |transaction|
       transaction.result == :success
@@ -160,10 +161,8 @@ class SalesAnalyst
   def invoice_total(invoice_id)
     invoice_items_repo = @engine.invoice_items
     invoice_item = invoice_items_repo.find_all_by_invoice_id(invoice_id)
-    total_amount = invoice_item.sum do |item|
+    invoice_item.sum do |item|
       item.quantity * item.unit_price
     end
-    total_amount
   end
-
 end

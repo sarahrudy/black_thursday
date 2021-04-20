@@ -14,7 +14,7 @@ RSpec.describe MerchantRepository do
     end
 
     it 'create merchant' do
-      engine.merchants.create({name: 'Zachs Store'})
+      engine.merchants.create({ name: 'Zachs Store' })
 
       expected = engine.merchants.find_by_id(12_337_412)
 
@@ -24,12 +24,12 @@ RSpec.describe MerchantRepository do
     it 'find by name' do
       merchant = engine.merchants.find_by_id(12_337_412)
 
-      expect(engine.merchants.find_by_name("Zachs Store")).to eq(merchant)
+      expect(engine.merchants.find_by_name('Zachs Store')).to eq(merchant)
     end
 
     it 'find all by name' do
       merchant = engine.merchants.find_by_id(12_337_412)
-      merchant2 = engine.merchants.create({name: "Zachs Shop"})
+      merchant2 = engine.merchants.create({ name: 'Zachs Shop' })
 
       expect(engine.merchants.find_all_by_name('Zach')).to eq([merchant, merchant2])
     end

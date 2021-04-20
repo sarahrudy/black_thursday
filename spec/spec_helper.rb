@@ -11,7 +11,6 @@ require './lib/transaction'
 require './lib/customer'
 require './lib/sales_analyst'
 
-
 module Helper
   class << self
     attr_accessor :engine
@@ -37,10 +36,8 @@ RSpec.configure do |config|
                                            invoices: './data/invoices.csv',
                                            invoice_items: './data/invoice_items.csv',
                                            transactions: './data/transactions.csv',
-                                           customers: './data/customers.csv',
+                                           customers: './data/customers.csv'
                                          })
   end
   config.include Helper
 end
-
-

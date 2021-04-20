@@ -6,7 +6,7 @@ class InvoiceItemRepository
 
   def initialize(file_path, engine)
     @invoice_items = create_invoice_items(file_path)
-    @engine = engine 
+    @engine = engine
   end
 
   def create(attributes)
@@ -17,10 +17,10 @@ class InvoiceItemRepository
   end
 
   def create_invoice_items(file_path)
-     csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
-      csv.map do |row|
-        InvoiceItem.new(row)
-      end
+    csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
+    csv.map do |row|
+      InvoiceItem.new(row)
+    end
   end
 
   def all
@@ -47,9 +47,10 @@ class InvoiceItemRepository
 
   def update(id, attributes)
     data = find_by_id(id)
-    return if !data
-    attributes.each do |key,value|
-      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    return unless data
+
+    attributes.each do |key, value|
+      data.send("#{key}=", value) if data.respond_to?("#{key}=")
     end
     data.updated_at = Time.now
     data
@@ -61,14 +62,14 @@ class InvoiceItemRepository
   end
 
   def find_last_id
-  @invoice_items = @invoice_items.sort_by do |data|
-    data.id.to_i
+    @invoice_items = @invoice_items.sort_by do |data|
+      data.id.to_i
+    end
+    data = @invoice_items.last
+    data.id
   end
-  data = @invoice_items.last
-  data.id
-end
 
-def inspect
-"#<#{self.class} #{@invoice_items.size} rows>"
-end
+  def inspect
+    "#<#{self.class} #{@invoice_items.size} rows>"
+  end
 end

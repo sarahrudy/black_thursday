@@ -43,8 +43,8 @@ RSpec.describe ItemRepository do
                                         :updated_at => Time.now.to_s,
                                         :merchant_id => 2
                                       })
-      item_2 = item_repository.find_by_id(263567475)
-      
+      item_2 = item_repository.find_by_id(263_567_475)
+
       expect(item_repository.find_all_with_description('Phone without Breaking')).to eq([item_2, item_1])
     end
 
@@ -88,18 +88,19 @@ RSpec.describe ItemRepository do
 
     it 'finds all items by merchant id' do
       item_repository = engine.items
-      item_1 = item_repository.find_by_id(263567475)
-      item_2 = item_repository.find_by_id(263567476)
-      item_3 = item_repository.find_by_id(263567477)
-      item_4 = item_repository.find_by_id(263567478)
-      item_5 = item_repository.find_by_id(263567479)
+      item_1 = item_repository.find_by_id(263_567_475)
+      item_2 = item_repository.find_by_id(263_567_476)
+      item_3 = item_repository.find_by_id(263_567_477)
+      item_4 = item_repository.find_by_id(263_567_478)
+      item_5 = item_repository.find_by_id(263_567_479)
 
-      expect(item_repository.find_all_by_merchant_id(item_1.merchant_id)).to eq([item_1,item_2,item_3,item_4,item_5])
+      expect(item_repository.find_all_by_merchant_id(item_1.merchant_id)).to eq([item_1, item_2, item_3, item_4,
+                                                                                 item_5])
     end
 
     it 'update a specific item' do
       item_repository = engine.items
-      item_1 = item_repository.find_by_id(263567475)
+      item_1 = item_repository.find_by_id(263_567_475)
 
       attributes = { name: 'iPhone Protective Holder' }
       expected = item_repository.update(item_1.id, attributes)
@@ -109,7 +110,7 @@ RSpec.describe ItemRepository do
 
     it 'can delete item' do
       item_repository = engine.items
-      item_1 = item_repository.find_by_id(263567475)
+      item_1 = item_repository.find_by_id(263_567_475)
 
       expect(item_repository.delete(item_1.id)).to eq(item_1)
       expect(item_repository.find_by_id(item_1.id)).to eq(nil)

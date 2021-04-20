@@ -4,14 +4,12 @@ RSpec.describe SalesAnalyst do
   let(:sales_analyst) { engine.analyst }
   describe 'instantiation' do
     it '::new' do
-
       expect(sales_analyst).to be_instance_of(SalesAnalyst)
     end
   end
 
   describe 'instance methods' do
     it '#average_items_per_merchant' do
-
       expect(sales_analyst.average_items_per_merchant).to eq(2.87)
     end
 
@@ -21,7 +19,6 @@ RSpec.describe SalesAnalyst do
     end
 
     it '#merchants_with_high_item_count' do
-
       expect(sales_analyst.merchants_with_high_item_count.size).to eq(52)
     end
 
@@ -48,21 +45,18 @@ RSpec.describe SalesAnalyst do
 
       expect(sales_analyst.average_item_price_for_merchant(merchant.id)).to eq(average_price.round(2))
     end
-    
-    it '#average_average_price_per_merchant' do
 
+    it '#average_average_price_per_merchant' do
       expect(sales_analyst.average_average_price_per_merchant).to eq(348.91)
     end
 
     it '#golden_items' do
-
       expect(sales_analyst.golden_items.size).to eq(5)
     end
   end
 
   describe 'business intelligence on invoices' do
     it '#average_invoices_per_merchant' do
-
       expect(sales_analyst.average_invoices_per_merchant).to eq(10.45)
     end
 
@@ -72,22 +66,18 @@ RSpec.describe SalesAnalyst do
     end
 
     it '#top_merchants_by_invoice_count' do
-
       expect(sales_analyst.top_merchants_by_invoice_count.size).to eq(12)
     end
 
     it '#bottom_merchants_by_invoice_count' do
-
       expect(sales_analyst.bottom_merchants_by_invoice_count.size).to eq(6)
     end
 
     it '#top_days_by_invoice_count' do
-
       expect(sales_analyst.top_days_by_invoice_count).to eq(['Wednesday'])
     end
 
     it '#invoice_status' do
-
       expect(sales_analyst.invoice_status(:pending)).to eq(29.58)
       expect(sales_analyst.invoice_status(:shipped)).to eq(56.91)
       expect(sales_analyst.invoice_status(:returned)).to eq(13.49)
@@ -96,15 +86,13 @@ RSpec.describe SalesAnalyst do
 
   describe 'business intelligence on invoice paid and invoice total' do
     it '#invoice_paid_in_full' do
-
       expect(sales_analyst.invoice_paid_in_full?(1)).to eq(true)
       expect(sales_analyst.invoice_paid_in_full?(1752)).to eq(false)
-      expect(sales_analyst.invoice_paid_in_full?(123456789)).to eq(false)
+      expect(sales_analyst.invoice_paid_in_full?(123_456_789)).to eq(false)
     end
 
     it '#invoice_total' do
-
-      expect(sales_analyst.invoice_total(1)).to eq(21550.89)
+      expect(sales_analyst.invoice_total(1)).to eq(21_550.89)
     end
   end
 end
