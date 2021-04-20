@@ -12,7 +12,7 @@ RSpec.describe SalesAnalyst do
   describe 'instance methods' do
     it '#average_items_per_merchant' do
 
-      expect(sales_analyst.average_items_per_merchant).to eq(2.88)
+      expect(sales_analyst.average_items_per_merchant).to eq(2.87)
     end
 
     it '#average_items_per_merchant_standard_deviation' do
@@ -51,7 +51,7 @@ RSpec.describe SalesAnalyst do
     
     it '#average_average_price_per_merchant' do
 
-      expect(sales_analyst.average_average_price_per_merchant).to eq(349.64)
+      expect(sales_analyst.average_average_price_per_merchant).to eq(348.91)
     end
 
     it '#golden_items' do
@@ -63,12 +63,12 @@ RSpec.describe SalesAnalyst do
   describe 'business intelligence on invoices' do
     it '#average_invoices_per_merchant' do
 
-      expect(sales_analyst.average_invoices_per_merchant).to eq(10.47)
+      expect(sales_analyst.average_invoices_per_merchant).to eq(10.45)
     end
 
     it '#average_invoices_per_merchant_standard_deviation' do
       # come back to make sure it's ok to use 3.16
-      expect(sales_analyst.average_invoices_per_merchant_standard_deviation).to eq(3.32)
+      expect(sales_analyst.average_invoices_per_merchant_standard_deviation).to eq(3.35)
     end
 
     it '#top_merchants_by_invoice_count' do
@@ -78,7 +78,7 @@ RSpec.describe SalesAnalyst do
 
     it '#bottom_merchants_by_invoice_count' do
 
-      expect(sales_analyst.bottom_merchants_by_invoice_count.size).to eq(5)
+      expect(sales_analyst.bottom_merchants_by_invoice_count.size).to eq(6)
     end
 
     it '#top_days_by_invoice_count' do
@@ -88,9 +88,9 @@ RSpec.describe SalesAnalyst do
 
     it '#invoice_status' do
 
-      expect(sales_analyst.invoice_status(:pending)).to eq(29.55)
-      expect(sales_analyst.invoice_status(:shipped)).to eq(56.95)
-      expect(sales_analyst.invoice_status(:returned)).to eq(13.5)
+      expect(sales_analyst.invoice_status(:pending)).to eq(29.58)
+      expect(sales_analyst.invoice_status(:shipped)).to eq(56.91)
+      expect(sales_analyst.invoice_status(:returned)).to eq(13.49)
     end
   end
 end

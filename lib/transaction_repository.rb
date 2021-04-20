@@ -46,6 +46,7 @@ class TransactionRepository
   end
 
   def find_all_by_result(result)
+    result = result.downcase.to_sym
     @transactions.find_all do |transaction|
       transaction.result == result
     end

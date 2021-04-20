@@ -42,6 +42,7 @@ class SalesAnalyst
   def average_item_price_for_merchant(merchant_id)
     merchant = @engine.merchants.find_by_id(merchant_id)
     prices = merchant.items.map { |item| item.unit_price }
+    return 0 if prices.size == 0
     BigDecimal(prices.sum / prices.size, 5).round(2)
   end
 
@@ -132,26 +133,6 @@ class SalesAnalyst
       d = invoice.created_at.wday
       grouped_invoices[dow[d]] += 1
     end
-    
-    
-    # invoice_repo.all.each do |invoice|
-    #    case invoice.created_at.wday
-    #    when 0
-    #      grouped_invoices['Sunday'] += 1
-    #    when 1
-    #      grouped_invoices['Monday'] += 1
-    #    when 2
-    #      grouped_invoices['Tuesday'] += 1
-    #    when 3
-    #      grouped_invoices['Wednesday'] += 1
-    #    when 4
-    #      grouped_invoices['Thursday'] += 1
-    #    when 5
-    #      grouped_invoices['Friday'] += 1
-    #    when 6
-    #      grouped_invoices['Saturday'] += 1
-    #    end
-    # end
      golden = average_per_day + standard_deviation(grouped_invoices.values)
     grouped_invoices.find_all do |wday, invoice_count|
       if invoice_count < golden
