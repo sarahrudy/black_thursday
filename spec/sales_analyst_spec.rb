@@ -96,7 +96,6 @@ RSpec.describe SalesAnalyst do
 
   describe 'business intelligence on invoice paid and invoice total' do
     it '#invoice_paid_in_full' do
-      sales_analyst = @sales_engine.analyst
 
       expect(sales_analyst.invoice_paid_in_full?(1)).to eq(true)
       expect(sales_analyst.invoice_paid_in_full?(1752)).to eq(false)
@@ -104,9 +103,8 @@ RSpec.describe SalesAnalyst do
     end
 
     it '#invoice_total' do
-      sales_analyst = @sales_engine.analyst
 
-      expect(sales_analyst.invoice_total(1)).to eq(21067.77)
+      expect(sales_analyst.invoice_total(1)).to eq(21550.89)
     end
   end
 end
