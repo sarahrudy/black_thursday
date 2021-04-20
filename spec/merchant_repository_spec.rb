@@ -36,7 +36,6 @@ RSpec.describe MerchantRepository do
 
     it 'can delete a merchant' do
       merchant = engine.merchants.find_by_id(12_337_413)
-      # require "pry"; binding.pry
 
       expect(engine.merchants.delete(merchant.id)).to eq(merchant)
       expect(engine.merchants.all).not_to include(merchant)

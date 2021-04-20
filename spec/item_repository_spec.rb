@@ -84,6 +84,7 @@ RSpec.describe ItemRepository do
 
       expect(item_repository.find_all_by_price_in_range(10.00..11.00).size).to eq(70)
       expect(item_repository.find_all_by_price_in_range(10.00..11.00)).to include(item_1)
+      item_repository.
     end
 
     it 'finds all items by merchant id' do

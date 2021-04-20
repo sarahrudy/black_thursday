@@ -1,20 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe InvoiceRepository do
-  before(:each) do
-    @sales_engine = SalesEngine.from_csv({
-                            items: './data/items.csv',
-                            merchants: './data/merchants.csv',
-                            invoices: './data/invoices.csv',
-                            invoice_items: './data/invoice_items.csv',
-                            transactions: './data/transactions.csv',
-                            customers: './data/customers.csv',
-                         })
-  end
 
   describe 'instantiation' do
     it "::new" do
-      invoice_repository = @sales_engine.invoices
+      invoice_repository = engine.invoices
 
       expect(invoice_repository).to be_instance_of(InvoiceRepository)
     end
@@ -22,14 +12,14 @@ RSpec.describe InvoiceRepository do
 
   describe 'invoice repository methods' do
     it 'can return an array of all known invoice instances'do
-      invoice_repository = @sales_engine.invoices
+      invoice_repository = engine.invoices
 
       # look into a different way of wording our test.
       expect(invoice_repository.all).to eq(invoice_repository.invoices)
     end
 
     it 'create invoice' do
-      invoice_repository = @sales_engine.invoices
+      invoice_repository = engine.invoices
       invoice_1 = invoice_repository.create({
                                             :id           => 1234567,
                                             :customer_id  => 89101112,
@@ -43,28 +33,24 @@ RSpec.describe InvoiceRepository do
     end
 
     it 'finds invoice by id' do
-      invoice_repository = @sales_engine.invoices
-      invoice_1 = invoice_repository.create({
-                                            :customer_id  => 89101112,
-                                            :merchant_id  => 13141516,
-                                            :created_at   => Time.now.to_s,
-                                            :status       => 'pending',
-                                            :updated_at   => Time.now.to_s
-                                          })
+      invoice_repository = engine.invoices
+      invoice_1 = invoice_repository.find_by_id(4986)
 
-      expect(invoice_repository.find_by_id(invoice_1.id)).to eq(invoice_1)
+      expect(invoice_1.id).to eq(4986)
+      expect(invoice_1.status).to eq(:pending)
     end
 
     it 'find all by customer_id' do
-      invoice_repository = @sales_engine.invoices
-      invoice_1 = invoice_repository.create({
+      invoice_repository = engine.invoices
+      invoice_1 = invoice_repository.find_by_id(4986)
+      invoice_2 = invoice_repository.create({
                                             :customer_id  => 89101112,
                                             :merchant_id  => 13141516,
                                             :created_at   => Time.now.to_s,
                                             :status       => 'pending',
                                             :updated_at   => Time.now.to_s
                                           })
-      invoice_2 = invoice_repository.create({
+      invoice_3 = invoice_repository.create({
                                             :customer_id  => 89101112,
                                             :merchant_id  => 19876543,
                                             :created_at   => Time.now.to_s,
@@ -72,31 +58,19 @@ RSpec.describe InvoiceRepository do
                                             :updated_at   => Time.now.to_s
                                           })
 
-      expect(invoice_repository.find_all_by_customer_id(invoice_1.customer_id)).to eq([invoice_1, invoice_2])
+      expect(invoice_repository.find_all_by_customer_id(invoice_1.customer_id)).to eq([invoice_1, invoice_2, invoice_3])
     end
 
     it 'find all by merchant_id' do
-      invoice_repository = @sales_engine.invoices
-      invoice_1 = invoice_repository.create({
-                                            :customer_id  => 89101112,
-                                            :merchant_id  => 13141516,
-                                            :created_at   => Time.now.to_s,
-                                            :status       => 'pending',
-                                            :updated_at   => Time.now.to_s
-                                          })
-      invoice_2 = invoice_repository.create({
-                                            :customer_id  => 89101112,
-                                            :merchant_id  => 19876543,
-                                            :created_at   => Time.now.to_s,
-                                            :status       => 'shipped',
-                                            :updated_at   => Time.now.to_s
-                                          })
+      invoice_repository = engine.invoices
+      invoice_1 = invoice_repository.find_by_id(4986)
+      invoice_2 = invoice_repository.find_by_id(4987)
 
-      expect(invoice_repository.find_all_by_merchant_id(invoice_1.merchant_id)).to eq([invoice_1])
+      expect(invoice_repository.find_all_by_merchant_id(invoice_1.merchant_id)).to eq([invoice_1,invoice_2])
     end
 
     it 'find all by status' do
-      invoice_repository = @sales_engine.invoices
+      invoice_repository = engine.invoices
       invoice_1 = invoice_repository.create({
                                             :customer_id  => 89101112,
                                             :merchant_id  => 13141516,
@@ -104,19 +78,12 @@ RSpec.describe InvoiceRepository do
                                             :status       => 'pending',
                                             :updated_at   => Time.now.to_s
                                           })
-      invoice_2 = invoice_repository.create({
-                                            :customer_id  => 89101112,
-                                            :merchant_id  => 19876543,
-                                            :created_at   => Time.now.to_s,
-                                            :status       => 'shipped',
-                                            :updated_at   => Time.now.to_s
-                                          })
 
-      expect(invoice_repository.find_all_by_status(invoice_1.status).size).to eq(1474)
+      expect(invoice_repository.find_all_by_status(invoice_1.status).size).to eq(1476)
     end
 
     it 'can update an invoice' do
-      invoice_repository = @sales_engine.invoices
+      invoice_repository = engine.invoices
       invoice_1 = invoice_repository.create({
                                             :customer_id  => 89101112,
                                             :merchant_id  => 13141516,
@@ -132,19 +99,12 @@ RSpec.describe InvoiceRepository do
     end
 
     it 'can delete invoice' do
-      invoice_repository = @sales_engine.invoices
+      invoice_repository = engine.invoices
       invoice_1 = invoice_repository.create({
                                             :customer_id  => 89101112,
                                             :merchant_id  => 13141516,
                                             :created_at   => Time.now.to_s,
                                             :status       => 'pending',
-                                            :updated_at   => Time.now.to_s
-                                          })
-      invoice_2 = invoice_repository.create({
-                                            :customer_id  => 89101112,
-                                            :merchant_id  => 19876543,
-                                            :created_at   => Time.now.to_s,
-                                            :status       => 'shipped',
                                             :updated_at   => Time.now.to_s
                                           })
 
