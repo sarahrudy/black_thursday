@@ -17,10 +17,10 @@ class TransactionRepository
   end
 
   def create_transactions(file_path)
-     csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
-      csv.map do |row|
-        Transaction.new(row)
-      end
+    csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
+    csv.map do |row|
+      Transaction.new(row)
+    end
   end
 
   def all
@@ -46,6 +46,7 @@ class TransactionRepository
   end
 
   def find_all_by_result(result)
+    result = result.downcase.to_sym
     @transactions.find_all do |transaction|
       transaction.result.to_sym == result
     end
@@ -53,9 +54,10 @@ class TransactionRepository
 
   def update(id, attributes)
     data = find_by_id(id)
-    return if !data
-    attributes.each do |key,value|
-      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    return unless data
+
+    attributes.each do |key, value|
+      data.send("#{key}=", value) if data.respond_to?("#{key}=")
     end
     data.updated_at = Time.now
     data
@@ -75,6 +77,6 @@ class TransactionRepository
   end
 
   def inspect
-  "#<#{self.class} #{@items.size} rows>"
+    "#<#{self.class} #{@items.size} rows>"
   end
 end

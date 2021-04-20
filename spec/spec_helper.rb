@@ -11,10 +11,33 @@ require './lib/transaction'
 require './lib/customer'
 require './lib/sales_analyst'
 
-# RSpec.configure do |config|
-#   config.include FactoryBot::Syntax::Methods
-#
-#   config.before(:suite) do
-#     FactoryBot.find_definitions
-#   end
-# end
+module Helper
+  class << self
+    attr_accessor :engine
+  end
+
+  def engine
+    Helper.engine
+  end
+end
+
+RSpec.configure do |config|
+  # config.include FactoryBot::Syntax::Methods
+  #
+  # config.before(:suite) do
+  #   FactoryBot.find_definitions
+  # end
+
+  config.before(:suite) do
+    config.disable_monkey_patching!
+    Helper.engine = SalesEngine.from_csv({
+                                           items: './data/items.csv',
+                                           merchants: './data/merchants.csv',
+                                           invoices: './data/invoices.csv',
+                                           invoice_items: './data/invoice_items.csv',
+                                           transactions: './data/transactions.csv',
+                                           customers: './data/customers.csv'
+                                         })
+  end
+  config.include Helper
+end

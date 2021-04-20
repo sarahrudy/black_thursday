@@ -6,7 +6,7 @@ class InvoiceRepository
 
   def initialize(file_path, engine)
     @invoices = create_invoices(file_path)
-    @engine = engine 
+    @engine = engine
   end
 
   def create(attributes)
@@ -17,10 +17,10 @@ class InvoiceRepository
   end
 
   def create_invoices(file_path)
-     csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
-      csv.map do |row|
-        Invoice.new(row)
-      end
+    csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
+    csv.map do |row|
+      Invoice.new(row)
+    end
   end
 
   def all
@@ -53,9 +53,10 @@ class InvoiceRepository
 
   def update(id, attributes)
     data = find_by_id(id)
-    return if !data
-    attributes.each do |key,value|
-      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
+    return unless data
+
+    attributes.each do |key, value|
+      data.send("#{key}=", value) if data.respond_to?("#{key}=")
     end
     data.updated_at = Time.now
     data
@@ -75,6 +76,6 @@ class InvoiceRepository
   end
 
   def inspect
-  "#<#{self.class} #{@invoices.size} rows>"
+    "#<#{self.class} #{@invoices.size} rows>"
   end
 end
