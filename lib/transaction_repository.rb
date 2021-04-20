@@ -1,7 +1,7 @@
 require_relative 'transaction'
 require 'csv'
 
-class TransactionRepository 
+class TransactionRepository
   attr_reader :transactions
 
   def initialize(file_path, engine)
@@ -47,7 +47,7 @@ class TransactionRepository
 
   def find_all_by_result(result)
     @transactions.find_all do |transaction|
-      transaction.result == result
+      transaction.result.to_sym == result
     end
   end
 

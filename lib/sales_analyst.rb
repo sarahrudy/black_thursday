@@ -169,12 +169,9 @@ class SalesAnalyst
     # return true if transaction result is success
     transactions = @engine.transactions.find_all_by_invoice_id(invoice_id)
     return false if transactions.empty?
+    # require "pry"; binding.pry
     transactions.all? do |transaction|
-      if transaction.result == 'success'
-        return true
-      else
-        false
-      end 
+      transaction.result == :success
     end
   end
 

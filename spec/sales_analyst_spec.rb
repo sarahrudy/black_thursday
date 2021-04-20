@@ -160,7 +160,7 @@ RSpec.describe SalesAnalyst do
     it '#invoice_total' do
       sales_analyst = @sales_engine.analyst
 
-      expect(sales_analyst.invoice_total(1)).to eq(21066.98)
+      expect(sales_analyst.invoice_total(1)).to eq(21067.77)
     end
   end
 end
