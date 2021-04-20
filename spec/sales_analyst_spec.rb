@@ -93,4 +93,20 @@ RSpec.describe SalesAnalyst do
       expect(sales_analyst.invoice_status(:returned)).to eq(13.49)
     end
   end
+
+  describe 'business intelligence on invoice paid and invoice total' do
+    it '#invoice_paid_in_full' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.invoice_paid_in_full?(1)).to eq(true)
+      expect(sales_analyst.invoice_paid_in_full?(1752)).to eq(false)
+      expect(sales_analyst.invoice_paid_in_full?(123456789)).to eq(false)
+    end
+
+    it '#invoice_total' do
+      sales_analyst = @sales_engine.analyst
+
+      expect(sales_analyst.invoice_total(1)).to eq(21067.77)
+    end
+  end
 end

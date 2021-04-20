@@ -24,7 +24,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901011,
                       :credit_card_number           => '1234567890123456',
                       :credit_card_expiration_date  => '1221',
-                      :result                       => 'success',
+                      :result                       => :success,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
@@ -38,7 +38,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901011,
                       :credit_card_number           => '1234567890123456',
                       :credit_card_expiration_date  => '1221',
-                      :result                       => 'success',
+                      :result                       => :success,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
@@ -54,7 +54,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901011,
                       :credit_card_number           => '1234567890123456',
                       :credit_card_expiration_date  => '1221',
-                      :result                       => 'success',
+                      :result                       => :success,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
@@ -77,7 +77,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901011,
                       :credit_card_number           => '1234567890123456',
                       :credit_card_expiration_date  => '1221',
-                      :result                       => 'success',
+                      :result                       => :success,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
@@ -85,7 +85,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901012,
                       :credit_card_number           => '9876543210123456',
                       :credit_card_expiration_date  => '1222',
-                      :result                       => 'failed',
+                      :result                       => :failed,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
@@ -99,7 +99,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901011,
                       :credit_card_number           => '1234567890123456',
                       :credit_card_expiration_date  => '1221',
-                      :result                       => 'success',
+                      :result                       => :success,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
@@ -119,7 +119,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901011,
                       :credit_card_number           => '1234567890123456',
                       :credit_card_expiration_date  => '1221',
-                      :result                       => 'success',
+                      :result                       => :success,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
@@ -127,7 +127,7 @@ RSpec.describe TransactionRepository do
                       :invoice_id                   => 8901012,
                       :credit_card_number           => '9876543210123456',
                       :credit_card_expiration_date  => '1222',
-                      :result                       => 'failed',
+                      :result                       => :failed,
                       :created_at                   => Time.now.to_s,
                       :updated_at                   => Time.now.to_s
                     })
