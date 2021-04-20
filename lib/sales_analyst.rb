@@ -30,12 +30,13 @@ class SalesAnalyst
     # merchants_filtered = @engine.merchants.all.select do |merchant|
     #   merchant.items.size > average
     # end
+    # 
+    average_item_sd_height = average_items_per_merchant + average_items_per_merchant_standard_deviation
+    
 
-    w = short_list.find_all do |merchant|
-      # require "pry"; binding.pry
-      merchant.items.size > (average_items_per_merchant + average_items_per_merchant_standard_deviation)
+    short_list.find_all do |merchant|
+      merchant.items.size > average_item_sd_height
     end
-    # require "pry"; binding.pry
   end
 
   def average_item_price_for_merchant(merchant_id)
@@ -52,14 +53,6 @@ class SalesAnalyst
     end
     BigDecimal(total_average.sum / merchants.size, 5).round(2)
   end
-  #     item_prices = []
-  #     merchant.items.each do |item|
-  #       item_prices << item.unit_price
-  #     end
-  #     total_average << item_prices.sum / item_prices.size
-  #   end
-  #   BigDecimal((total_average.sum / total_average.size), 5).round(2)
-  # end
 
   # any item that is two standard deviations above the standard
   def golden_items
@@ -129,28 +122,36 @@ class SalesAnalyst
   end
 
   def top_days_by_invoice_count
+    dow = {0 => 'Sunday', 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday'}
     # days with highest number of sales by invoice count
     invoice_repo = @engine.invoices
     average_per_day = invoice_repo.all.size / 7
-    grouped_invoices = Hash.new{|h,k| h[k] = 0}
+    # grouped_invoices = Hash.new{|h,k| h[k] = 0}
+    grouped_invoices = Hash.new(0)
     invoice_repo.all.each do |invoice|
-       case invoice.created_at.wday
-       when 0
-         grouped_invoices['Sunday'] += 1
-       when 1
-         grouped_invoices['Monday'] += 1
-       when 2
-         grouped_invoices['Tuesday'] += 1
-       when 3
-         grouped_invoices['Wednesday'] += 1
-       when 4
-         grouped_invoices['Thursday'] += 1
-       when 5
-         grouped_invoices['Friday'] += 1
-       when 6
-         grouped_invoices['Saturday'] += 1
-       end
+      d = invoice.created_at.wday
+      grouped_invoices[dow[d]] += 1
     end
+    
+    
+    # invoice_repo.all.each do |invoice|
+    #    case invoice.created_at.wday
+    #    when 0
+    #      grouped_invoices['Sunday'] += 1
+    #    when 1
+    #      grouped_invoices['Monday'] += 1
+    #    when 2
+    #      grouped_invoices['Tuesday'] += 1
+    #    when 3
+    #      grouped_invoices['Wednesday'] += 1
+    #    when 4
+    #      grouped_invoices['Thursday'] += 1
+    #    when 5
+    #      grouped_invoices['Friday'] += 1
+    #    when 6
+    #      grouped_invoices['Saturday'] += 1
+    #    end
+    # end
      golden = average_per_day + standard_deviation(grouped_invoices.values)
     grouped_invoices.find_all do |wday, invoice_count|
       if invoice_count < golden
