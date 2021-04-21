@@ -1,3 +1,4 @@
+require 'time'
 class SalesAnalyst
   def initialize(engine)
     @engine = engine
@@ -163,6 +164,46 @@ class SalesAnalyst
     invoice_item = invoice_items_repo.find_all_by_invoice_id(invoice_id)
     invoice_item.sum do |item|
       item.quantity * item.unit_price
+    end
+  end
+
+  def total_revenue_by_date(date)
+    date = Time.parse(date)
+    ii_by_date = @engine.invoice_items.find_all_by_date(date)
+    ii_by_date.delete_if do |ii|
+      invoice = @engine.invoices.find_by_id(ii.invoice_id)
+      invoice.status != :success
+    end
+    ii_by_date.sum do |ii|
+      ii.unit_price * ii.quantity
+    end
+  end
+
+  def total_revenue_by_merchant(merchant_id)
+    invo_repo = @engine.invoices
+    invo_item_repo = @engine.invoice_items
+    invoices = invo_repo.find_all_by_merchant_id(merchant_id)
+    total = 0
+    invoices.each do |i|
+      invo_items = invo_item_repo.find_all_by_invoice_id(i.id)
+      total += invo_items.sum do |ii|
+        ii.unit_price * ii.quantity
+      end
+    end
+    total
+  end
+
+  def top_revenue_earners(num_of_merchants = 20)
+    merchants = @engine.merchants.all
+    arr = []
+    merchants.each do |merchant|
+      arr << [merchant, total_revenue_by_merchant(merchant.id)]
+    end
+    sorted_arr = arr.sort do |a,b|
+      b[1] <=> a[1]
+    end
+    sorted_arr[0..(num_of_merchants - 1)].map do |i|
+      i[0]
     end
   end
 end

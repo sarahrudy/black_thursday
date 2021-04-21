@@ -61,6 +61,12 @@ class InvoiceItemRepository
     @invoice_items.delete(data)
   end
 
+  def find_all_by_date(date)
+    @invoice_items.find_all do |invoice_item|
+      invoice_item.updated_at.to_date == date
+    end
+  end
+
   def find_last_id
     @invoice_items = @invoice_items.sort_by do |data|
       data.id.to_i

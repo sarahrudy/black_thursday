@@ -95,4 +95,42 @@ RSpec.describe SalesAnalyst do
       expect(sales_analyst.invoice_total(1)).to eq(21_550.89)
     end
   end
+
+  describe 'merchant analytics' do
+    it 'should #total_revenue_by_date' do
+      # test if invoice is success
+      expect(sales_analyst.total_revenue_by_date('2012-12-24')).to eq(0)
+    end
+
+    it 'should #top_revenue_earners default to 20 merchants' do
+      # x = sales_analyst.top_revenue_earners
+      # require "pry"; binding.pry
+      expect(sales_analyst.top_revenue_earners).to eq([])
+      expect(sales_analyst.top_revenue_earners).to eq([]) # make sure it defaults to 20
+    end
+
+    xit 'should #merchants_with_pending_invoices ' do
+      expect(sales_analyst.merchants_with_pending_invoices).to eq([])
+    end
+
+    xit 'should #merchants_with_only_one_item ' do
+      expect(sales_analyst.merchants_with_only_one_item).to eq([])
+    end
+
+    xit 'should #merchants_with_only_one_item_registered_in_month' do
+      expect(sales_analyst.merchants_with_only_one_item_registered_in_month).to eq([])
+    end
+
+    xit 'should #revenue_by_merchant' do
+      expect(sales_analyst.revenue_by_merchant).to eq(0)
+    end
+
+    xit 'should #most_sold_item_for_merchant' do
+      expect(sales_analyst.most_sold_item_for_merchant).to eq([])
+    end
+
+    xit 'should #best_item_for_merchant' do
+      expect(sales_analyst.best_item_for_merchant).to eq(item)
+    end
+  end
 end
