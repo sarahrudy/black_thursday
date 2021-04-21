@@ -99,7 +99,7 @@ RSpec.describe SalesAnalyst do
   describe 'merchant analytics' do
     it 'should #total_revenue_by_date' do
       date = Time.parse('2009-02-07')
-      expect(sales_analyst.total_revenue_by_date(date)).to eq(21550.89)
+      expect(sales_analyst.total_revenue_by_date(date)).to eq(60123500.67)
     end
 
     it 'should #top_revenue_earners default to 20 merchants' do

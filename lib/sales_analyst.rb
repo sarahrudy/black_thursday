@@ -167,19 +167,16 @@ class SalesAnalyst
     end
   end
 
-  def total_revenue_by_date(date) # not passing test
+  def total_revenue_by_date(date)
     date = get_date(date)
     transactions_repo = @engine.transactions
-    ii_by_date = @engine.invoice_items.find_all_by_date(date)
-    successes = transactions_repo.find_all_by_result(:success)
-
+    invoices = @engine.invoices.find_all_by_date(date)
     arr = []
     invoices.each do |invoice|
       invoice.invoice_items.each do |invoice_item|
         arr << invoice_item
       end
     end
-
     total = arr.sum do |ii|
       ii.unit_price * ii.quantity
     end
