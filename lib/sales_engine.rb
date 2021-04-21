@@ -31,12 +31,12 @@ class SalesEngine
     @invoice_item_path = invoice_item_path
     @transaction_path = transaction_path
     @customer_path = customer_path
+    @customer_repository = CustomerRepository.new(@customer_path, self)
+    @transaction_repository = TransactionRepository.new(@transaction_path, self)
+    @invoice_item_repository = InvoiceItemRepository.new(@invoice_item_path, self)
+    @invoice_repository = InvoiceRepository.new(@invoice_path, self)
     @item_repository = ItemRepository.new(@item_path, self)
     @merchant_repository = MerchantRepository.new(@merchant_path, self)
-    @invoice_repository = InvoiceRepository.new(@invoice_path, self)
-    @invoice_item_repository = InvoiceItemRepository.new(@invoice_item_path, self)
-    @transaction_repository = TransactionRepository.new(@transaction_path, self)
-    @customer_repository = CustomerRepository.new(@customer_path, self)
   end
 
   def items

@@ -168,22 +168,17 @@ class SalesAnalyst
   end
 
   def total_revenue_by_date(date) # not passing test
-    if date.class == String
-      date = Date.parse(date)
-    elsif date.class == Time
-      date = date.to_date
-    end
+    date = get_date(date)
     transactions_repo = @engine.transactions
-    ii_by_date = @engine.invoice_items.find_all_by_date(date)
-    successes = transactions_repo.find_all_by_result(:success)
-    
+    invoices = @engine.invoices.find_all_by_date(date)
+
     arr = []
-    successes.each do |transaction|
-      ii_by_date.each do |ii|
-        arr << ii if transaction.invoice_id == ii.invoice_id
+    invoices.each do |invoice|
+      invoice.invoice_items.each do |invoice_item|
+        arr << invoice_item
       end
     end
-    
+
     total = arr.sum do |ii|
       ii.unit_price * ii.quantity
     end
@@ -194,9 +189,12 @@ class SalesAnalyst
     invo_repo = @engine.invoices
     invo_item_repo = @engine.invoice_items
     invoices = invo_repo.find_all_by_merchant_id(merchant_id)
+
+    invoices_paid_in_full = invoices.find_all { |invoice| invoice_paid_in_full?(invoice.id) }
+
     total = 0
-    invoices.each do |i|
-      invo_items = invo_item_repo.find_all_by_invoice_id(i.id)
+    invoices_paid_in_full.each do |invoice|
+      invo_items = invo_item_repo.find_all_by_invoice_id(invoice.id)
       total += invo_items.sum do |ii|
         ii.unit_price * ii.quantity
       end
@@ -206,27 +204,35 @@ class SalesAnalyst
 
   def top_revenue_earners(num_of_merchants = 20)
     merchants = @engine.merchants.all
-    merchant_revenue = []
-    merchants.each do |merchant|
-      merchant_revenue << [merchant, revenue_by_merchant(merchant.id)]
+    # invoice_repo = @engine.invoices
+    transactions_repo = @engine.transactions
+    merchant_revenue  = merchants.map do |merchant|
+      [merchant, revenue_by_merchant(merchant.id)]
     end
+
     sorted_merchant_revenue = merchant_revenue.sort do |a,b|
       b[1] <=> a[1]
     end
-    require "pry"; binding.pry
+
     sorted_merchant_revenue[0..(num_of_merchants - 1)].map do |merch_rev_elem|
       merch_rev_elem[0]
-    end #.sort
+    end
   end
 
   def merchants_with_pending_invoices # not passing test
-    # merchants = @engine.merchants.all
-    pending_invoices_ids = @engine.invoices.find_all_by_status(:pending).map(&:id)
-    transactions_invoice_ids = @engine.transactions.find_all_by_result(:failed).map(&:invoice_id)
-    all_ids = (pending_invoices_ids + transactions_invoice_ids).uniq
-    m = all_ids.map do |invoice_id|
-      @engine.merchants.find_by_id(@engine.invoices.find_by_id(invoice_id).merchant_id)
-    end.uniq
+    merchants = @engine.merchants.all
+    merchants_array = []
+    merchants.each do |merchant|
+      merchant.invoices.each do |invoice|
+        all_transactions_failed = invoice.transactions.all? do |transaction|
+          transaction.result == :failed
+        end
+        if all_transactions_failed
+          merchants_array << merchant
+        end
+      end
+    end
+    merchants_array.flatten.uniq
   end
   
   def merchants_with_only_one_item
@@ -255,6 +261,14 @@ class SalesAnalyst
     end
     merchants.find_all do |merchant|
       merchant.items.size == 1
+    end
+  end
+
+  def get_date(date)
+    if date.class == String
+      date = Date.parse(date)
+    elsif date.class == Time
+      date = date.to_date
     end
   end
 end

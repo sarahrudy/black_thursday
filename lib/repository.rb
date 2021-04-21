@@ -22,16 +22,18 @@ class Repository
 
   def find_all_by_name(name)
     @data_objects.find_all do |data|
-      data.name.casecmp?(name)
+      data_downcase = data.name.downcase
+      data_downcase.include?(name.downcase)
     end
   end
 
   def update(id, attributes)
     data = find_by_id(id)
+    return unless data
     attributes.each do |key, value|
       data.send("#{key}=", value) if data.respond_to?("#{key}=")
     end
-    data.updated_at = DateTime.now
+    data.updated_at = Time.now
     data
   end
 
