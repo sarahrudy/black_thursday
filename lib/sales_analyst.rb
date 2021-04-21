@@ -1,4 +1,5 @@
 require 'time'
+require 'date'
 class SalesAnalyst
   def initialize(engine)
     @engine = engine
@@ -152,8 +153,7 @@ class SalesAnalyst
     # return true if transaction result is success
     transactions = @engine.transactions.find_all_by_invoice_id(invoice_id)
     return false if transactions.empty?
-
-    # require "pry"; binding.pry
+    
     transactions.all? do |transaction|
       transaction.result == :success
     end
@@ -167,19 +167,30 @@ class SalesAnalyst
     end
   end
 
-  def total_revenue_by_date(date)
-    date = Time.parse(date)
-    ii_by_date = @engine.invoice_items.find_all_by_date(date)
-    ii_by_date.delete_if do |ii|
-      invoice = @engine.invoices.find_by_id(ii.invoice_id)
-      invoice.status != :success
+  def total_revenue_by_date(date) # not passing test
+    if date.class == String
+      date = Date.parse(date)
+    elsif date.class == Time
+      date = date.to_date
     end
-    ii_by_date.sum do |ii|
+    transactions_repo = @engine.transactions
+    ii_by_date = @engine.invoice_items.find_all_by_date(date)
+    successes = transactions_repo.find_all_by_result(:success)
+    
+    arr = []
+    successes.each do |transaction|
+      ii_by_date.each do |ii|
+        arr << ii if transaction.invoice_id == ii.invoice_id
+      end
+    end
+    
+    total = arr.sum do |ii|
       ii.unit_price * ii.quantity
     end
+    BigDecimal(total, 8)
   end
 
-  def total_revenue_by_merchant(merchant_id)
+  def revenue_by_merchant(merchant_id)
     invo_repo = @engine.invoices
     invo_item_repo = @engine.invoice_items
     invoices = invo_repo.find_all_by_merchant_id(merchant_id)
@@ -195,15 +206,55 @@ class SalesAnalyst
 
   def top_revenue_earners(num_of_merchants = 20)
     merchants = @engine.merchants.all
-    arr = []
+    merchant_revenue = []
     merchants.each do |merchant|
-      arr << [merchant, total_revenue_by_merchant(merchant.id)]
+      merchant_revenue << [merchant, revenue_by_merchant(merchant.id)]
     end
-    sorted_arr = arr.sort do |a,b|
+    sorted_merchant_revenue = merchant_revenue.sort do |a,b|
       b[1] <=> a[1]
     end
-    sorted_arr[0..(num_of_merchants - 1)].map do |i|
-      i[0]
+    require "pry"; binding.pry
+    sorted_merchant_revenue[0..(num_of_merchants - 1)].map do |merch_rev_elem|
+      merch_rev_elem[0]
+    end #.sort
+  end
+
+  def merchants_with_pending_invoices # not passing test
+    # merchants = @engine.merchants.all
+    pending_invoices_ids = @engine.invoices.find_all_by_status(:pending).map(&:id)
+    transactions_invoice_ids = @engine.transactions.find_all_by_result(:failed).map(&:invoice_id)
+    all_ids = (pending_invoices_ids + transactions_invoice_ids).uniq
+    m = all_ids.map do |invoice_id|
+      @engine.merchants.find_by_id(@engine.invoices.find_by_id(invoice_id).merchant_id)
+    end.uniq
+  end
+  
+  def merchants_with_only_one_item
+    @engine.merchants.all.find_all do |merchant|
+      merchant.items.size == 1 
+    end
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    months = {
+      1  =>'january',
+      2  =>'february',
+      3  =>'march',
+      4  =>'april',
+      5  =>'may',
+      6  =>'june',
+      7  =>'july',
+      8  =>'august',
+      9  =>'september',
+      10 =>'october',
+      11 =>'november',
+      12 =>'december'}
+    merchants = @engine.merchants.all.find_all do |merchant|
+      month_digit = merchant.created_at.to_date.month
+      months[month_digit] == month.downcase
+    end
+    merchants.find_all do |merchant|
+      merchant.items.size == 1
     end
   end
 end

@@ -2,7 +2,7 @@ require 'time'
 
 class Merchant
   attr_accessor :name
-  attr_reader :id, :items
+  attr_reader :id, :items, :created_at
   attr_writer :updated_at
 
   def initialize(info)

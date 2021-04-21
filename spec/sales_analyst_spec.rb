@@ -99,30 +99,30 @@ RSpec.describe SalesAnalyst do
   describe 'merchant analytics' do
     it 'should #total_revenue_by_date' do
       # test if invoice is success
-      expect(sales_analyst.total_revenue_by_date('2012-12-24')).to eq(0)
+      expect(sales_analyst.total_revenue_by_date('2012-03-27')).to eq(49653049.82)
     end
 
     it 'should #top_revenue_earners default to 20 merchants' do
-      # x = sales_analyst.top_revenue_earners
-      # require "pry"; binding.pry
-      expect(sales_analyst.top_revenue_earners).to eq([])
-      expect(sales_analyst.top_revenue_earners).to eq([]) # make sure it defaults to 20
+      expect(sales_analyst.top_revenue_earners.size).to eq(20) # make sure it defaults to 20
+      expect(sales_analyst.top_revenue_earners(10).size).to eq(10)
+      expect(sales_analyst.top_revenue_earners(30).size).to eq(30)
     end
 
-    xit 'should #revenue_by_merchant' do
-      expect(sales_analyst.revenue_by_merchant).to eq(0)
+    it 'should #revenue_by_merchant' do
+      id = engine.merchants.all.first.id
+      expect(sales_analyst.revenue_by_merchant(id)).to eq(106170.51)
     end
 
-    xit 'should #merchants_with_pending_invoices ' do
-      expect(sales_analyst.merchants_with_pending_invoices).to eq([])
+    it 'should #merchants_with_pending_invoices ' do
+      expect(sales_analyst.merchants_with_pending_invoices.size).to eq(475)
     end
 
-    xit 'should #merchants_with_only_one_item ' do
-      expect(sales_analyst.merchants_with_only_one_item).to eq([])
+    it 'should #merchants_with_only_one_item ' do
+      expect(sales_analyst.merchants_with_only_one_item.size).to eq(243)
     end
 
-    xit 'should #merchants_with_only_one_item_registered_in_month' do
-      expect(sales_analyst.merchants_with_only_one_item_registered_in_month).to eq([])
+    it 'should #merchants_with_only_one_item_registered_in_month' do
+      expect(sales_analyst.merchants_with_only_one_item_registered_in_month('March').size).to eq(21)
     end
     
     xit 'should #most_sold_item_for_merchant' do

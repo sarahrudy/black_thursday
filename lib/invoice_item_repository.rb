@@ -62,6 +62,7 @@ class InvoiceItemRepository
   end
 
   def find_all_by_date(date)
+    date = Date.parse(date) if date.class != Date
     @invoice_items.find_all do |invoice_item|
       invoice_item.updated_at.to_date == date
     end
