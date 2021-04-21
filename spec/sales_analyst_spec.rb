@@ -109,6 +109,10 @@ RSpec.describe SalesAnalyst do
       expect(sales_analyst.top_revenue_earners).to eq([]) # make sure it defaults to 20
     end
 
+    xit 'should #revenue_by_merchant' do
+      expect(sales_analyst.revenue_by_merchant).to eq(0)
+    end
+
     xit 'should #merchants_with_pending_invoices ' do
       expect(sales_analyst.merchants_with_pending_invoices).to eq([])
     end
@@ -120,11 +124,7 @@ RSpec.describe SalesAnalyst do
     xit 'should #merchants_with_only_one_item_registered_in_month' do
       expect(sales_analyst.merchants_with_only_one_item_registered_in_month).to eq([])
     end
-
-    xit 'should #revenue_by_merchant' do
-      expect(sales_analyst.revenue_by_merchant).to eq(0)
-    end
-
+    
     xit 'should #most_sold_item_for_merchant' do
       expect(sales_analyst.most_sold_item_for_merchant).to eq([])
     end
