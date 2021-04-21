@@ -15,7 +15,7 @@ class CustomerRepository < Repository
     attributes[:id] = find_last_id.to_i + 1
     customer = Customer.new(attributes)
     @customers << customer
-    customer  # returning instance of the customer
+    customer
   end
 
   def create_customers(file_path)

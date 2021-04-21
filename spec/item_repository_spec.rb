@@ -13,7 +13,6 @@ RSpec.describe ItemRepository do
     it 'can return an array of all known item instances'do
       item_repository = engine.items
 
-      # look into a different way of wording our test.
       expect(item_repository.all).to be_instance_of(Array)
       expect(item_repository.all.first).to be_instance_of(Item)
       expect(item_repository.all).to eq(item_repository.items)
@@ -94,8 +93,11 @@ RSpec.describe ItemRepository do
       item_4 = item_repository.find_by_id(263_567_478)
       item_5 = item_repository.find_by_id(263_567_479)
 
-      expect(item_repository.find_all_by_merchant_id(item_1.merchant_id)).to eq([item_1, item_2, item_3, item_4,
-                                                                                 item_5])
+      expect(item_repository.find_all_by_merchant_id(item_1.merchant_id)).to eq([item_1,
+                                                                                item_2,
+                                                                                item_3,
+                                                                                item_4,
+                                                                                item_5])
     end
 
     it 'update a specific item' do

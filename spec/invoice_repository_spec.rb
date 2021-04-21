@@ -12,9 +12,8 @@ RSpec.describe InvoiceRepository do
   describe 'invoice repository methods' do
     it 'can return an array of all known invoice instances'do
 
-      # look into a different way of wording our test.
-      expect(invoice_repository.all).to eq(invoice_repository.invoices)
-    end
+    expect(invoice_repository.all).to eq(invoice_repository.invoices)
+  end
 
     it 'create invoice' do
       invoice_1 = invoice_repository.create({
@@ -26,8 +25,8 @@ RSpec.describe InvoiceRepository do
                                               :updated_at => Time.now.to_s
                                             })
 
-      expect(invoice_1).to be_instance_of(Invoice)
-    end
+    expect(invoice_1).to be_instance_of(Invoice)
+  end
 
     it 'finds invoice by id' do
       invoice_1 = invoice_repository.find_by_id(4986)
@@ -105,7 +104,6 @@ RSpec.describe InvoiceRepository do
 
     it 'should #find_all_by_date' do
       expect(invoice_repository.find_all_by_date('2009-02-07').size).to eq 1
-      
     end
   end
 end

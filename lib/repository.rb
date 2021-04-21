@@ -1,4 +1,3 @@
-# super class
 class Repository
   def initialize(data_objects)
     @data_objects = data_objects
@@ -77,8 +76,7 @@ class Repository
     "#<#{self.class} #{@data_objects.size} rows>"
   end
 
-
-  private # can't be accessed with their instance after the class
+  private
 
   def find_last_id
     data_objects = @data_objects.sort_by do |data|

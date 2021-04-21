@@ -13,7 +13,6 @@ class Merchant
     @items = []
     @invoices = []
   end
-  # Add create method here
 
   def set_time(time)
     if time
@@ -26,7 +25,7 @@ class Merchant
   def add_item(item)
     @items << item
   end
-  
+
   def add_invoice(invoice)
     @invoices << invoice
   end
