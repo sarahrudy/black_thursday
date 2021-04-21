@@ -1,12 +1,14 @@
+require_relative 'repository'
 require_relative 'item'
 require 'csv'
 
-class ItemRepository
+class ItemRepository < Repository
   attr_reader :items
 
   def initialize(file_path, engine)
     @engine = engine
     @items = create_items(file_path)
+    super(@items)
   end
 
   def create(attributes)
@@ -33,46 +35,6 @@ class ItemRepository
     item_array
   end
 
-  def all
-    @items
-  end
-
-  def find_by_id(id)
-    @items.find do |data|
-      data.id == id
-    end
-  end
-
-  def find_by_name(name)
-    @items.find do |data|
-      data.name.casecmp?(name)
-    end
-  end
-
-  def update(id, attributes)
-    data = find_by_id(id)
-    return unless data
-
-    attributes.each do |key, value|
-      data.send("#{key}=", value) if data.respond_to?("#{key}=")
-    end
-    data.updated_at = Time.now
-    data
-  end
-
-  def delete(id)
-    data = find_by_id(id)
-    @items.delete(data)
-  end
-
-  def find_last_id
-    @items = @items.sort_by do |data|
-      data.id.to_i
-    end
-    data = @items.last
-    data.id
-  end
-
   def find_all_by_price(price)
     price = BigDecimal(price.to_i / 100.to_f, 5) unless price.instance_of?(BigDecimal)
     @items.find_all do |item|
@@ -84,15 +46,5 @@ class ItemRepository
     @items.find_all do |item|
       range.cover?(item.unit_price)
     end
-  end
-
-  def find_all_by_merchant_id(merchant_id)
-    @items.find_all do |item|
-      item.merchant_id == merchant_id
-    end
-  end
-
-  def inspect
-    "#<#{self.class} #{@items.size} rows>"
   end
 end

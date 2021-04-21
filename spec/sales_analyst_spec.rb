@@ -98,23 +98,23 @@ RSpec.describe SalesAnalyst do
 
   describe 'merchant analytics' do
     it 'should #total_revenue_by_date' do
-      # test if invoice is success
-      expect(sales_analyst.total_revenue_by_date('2009-02-07')).to eq(21067.77)
+      date = Time.parse('2009-02-07')
+      expect(sales_analyst.total_revenue_by_date(date)).to eq(21550.89)
     end
 
     it 'should #top_revenue_earners default to 20 merchants' do
-      expect(sales_analyst.top_revenue_earners.size).to eq(20) # make sure it defaults to 20
+      expect(sales_analyst.top_revenue_earners.size).to eq(20)
       expect(sales_analyst.top_revenue_earners(10).size).to eq(10)
       expect(sales_analyst.top_revenue_earners(30).size).to eq(30)
     end
 
     it 'should #revenue_by_merchant' do
       id = engine.merchants.all.first.id
-      expect(sales_analyst.revenue_by_merchant(id)).to eq(106170.51)
+      expect(sales_analyst.revenue_by_merchant(id)).to eq(73777.17)
     end
 
     it 'should #merchants_with_pending_invoices ' do
-      expect(sales_analyst.merchants_with_pending_invoices.size).to eq(475)
+      expect(sales_analyst.merchants_with_pending_invoices.size).to eq(467)
     end
 
     it 'should #merchants_with_only_one_item ' do
