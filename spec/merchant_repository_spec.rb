@@ -1,90 +1,52 @@
 require_relative 'spec_helper'
 
 RSpec.describe MerchantRepository do
-  before(:each) do
-    @sales_engine = SalesEngine.from_csv({
-                            items: './data/items.csv',
-                            merchants: './data/merchants.csv',
-                            invoices: './data/invoices.csv',
-                            invoice_items: './data/invoice_items.csv',
-                            transactions: './data/transactions.csv',
-                            customers: './data/customers.csv',
-                         })
-  end
   describe 'instantiation' do
-    it "::new" do
-
-      expect(@sales_engine.merchants).to be_instance_of(MerchantRepository)
+    it '::new' do
+      expect(engine.merchants).to be_instance_of(MerchantRepository)
     end
   end
 
   describe 'merchant repository methods' do
     it 'can return an array of all known merchant instances'do
-
       # look into a different way of wording our test.
-      expect(@sales_engine.merchants.all.size).to eq(475)
+      expect(engine.merchants.all.size).to eq(475)
     end
 
     it 'create merchant' do
-      @sales_engine.merchants.create({
-                                      name: 'Zachs Store',
-                                      })
+      engine.merchants.create({ name: 'Zachs Store' })
 
-      expected = @sales_engine.merchants.find_by_id(12337412)
+      expected = engine.merchants.find_by_id(12_337_412)
 
       expect(expected.name).to eq('Zachs Store')
     end
 
     it 'find by name' do
-      merchant_1 = @sales_engine.merchants.create({
-                                              name: 'Zachs Store',
-                                              created_at: Time.now.to_s,
-                                              updated_at: Time.now.to_s
-                                              })
+      merchant = engine.merchants.find_by_id(12_337_412)
 
-      expect(@sales_engine.merchants.find_by_name(merchant_1.name)).to eq(merchant_1)
+      expect(engine.merchants.find_by_name('Zachs Store')).to eq(merchant)
     end
 
     it 'find all by name' do
-      merchant_1 = @sales_engine.merchants.create({
-                                              name: 'Zachs Store',
-                                              created_at: Time.now.to_s,
-                                              updated_at: Time.now.to_s
-                                              })
-      merchant_2 = @sales_engine.merchants.create({
-                                              name: 'Zachs Store',
-                                              created_at: Time.now.to_s,
-                                              updated_at: Time.now.to_s
-                                              })
+      merchant = engine.merchants.find_by_id(12_337_412)
+      merchant2 = engine.merchants.create({ name: 'Zachs Shop' })
 
-      expect(@sales_engine.merchants.find_all_by_name(merchant_1.name)).to eq([merchant_1, merchant_2])
+      expect(engine.merchants.find_all_by_name('Zach')).to eq([merchant, merchant2])
     end
 
     it 'can delete a merchant' do
-      merchant_1 = @sales_engine.merchants.create({
-                                              name: 'Zachs Store',
-                                              created_at: Time.now.to_s,
-                                              updated_at: Time.now.to_s
-                                              })
-      merchant_2 = @sales_engine.merchants.create({
-                                              name: 'Zachs Store',
-                                              created_at: Time.now.to_s,
-                                              updated_at: Time.now.to_s
-                                              })
+      merchant = engine.merchants.find_by_id(12_337_413)
 
-      expect(@sales_engine.merchants.delete(merchant_1.id)).to eq(merchant_1)
-      expect(@sales_engine.merchants.find_by_id(merchant_1.id)).to eq(nil)
+      expect(engine.merchants.delete(merchant.id)).to eq(merchant)
+      expect(engine.merchants.all).not_to include(merchant)
+      expect(engine.merchants.find_by_id(merchant.id)).to eq(nil)
     end
 
     it 'can update a merchant' do
-      merchant_1 = @sales_engine.merchants.create({
-                                              name: 'Zachs Store',
-                                              created_at: Time.now.to_s,
-                                              updated_at: Time.now.to_s
-                                              })
+      merchant = engine.merchants.find_by_id(12_337_412)
 
-        attributes = {name: 'Bobs store'}
-        expected = @sales_engine.merchants.update(merchant_1.id, attributes)
+      attributes = { name: 'Bobs store' }
+      expected = engine.merchants.update(merchant.id, attributes)
 
       expect(expected.name).to eq('Bobs store')
     end

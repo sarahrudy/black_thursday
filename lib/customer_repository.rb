@@ -1,11 +1,14 @@
+require_relative 'repository'
 require_relative 'customer'
 require 'csv'
 
-class CustomerRepository
+class CustomerRepository < Repository
   attr_reader :customers
 
-  def initialize(file_path)
+  def initialize(file_path, engine)
     @customers = create_customers(file_path)
+    @engine = engine
+    super(@customers)
   end
 
   def create(attributes)
@@ -16,19 +19,9 @@ class CustomerRepository
   end
 
   def create_customers(file_path)
-     csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
-      csv.map do |row|
-        Customer.new(row)
-      end
-  end
-
-  def all
-    @customers
-  end
-
-  def find_by_id(id)
-    @customers.find do |data|
-      data.id == id
+    csv = CSV.read(file_path, :headers => true, :header_converters => :symbol)
+    csv.map do |row|
+      Customer.new(row)
     end
   end
 
@@ -44,32 +37,5 @@ class CustomerRepository
       customer_downcase = customer.last_name.downcase
       customer_downcase.include?(last_name.downcase)
     end
-  end
-
-  def update(id, attributes)
-    data = find_by_id(id)
-    return if !data
-    attributes.each do |key,value|
-      data.send("#{key.to_s}=", value) if data.respond_to?("#{key.to_s}=")
-    end
-    data.updated_at = Time.now
-    data
-  end
-
-  def delete(id)
-    data = find_by_id(id)
-    @customers.delete(data)
-  end
-
-  def find_last_id
-    @customers = @customers.sort_by do |data|
-      data.id.to_i
-    end
-    data = @customers.last
-    data.id
-  end
-
-  def inspect
-  "#<#{self.class} #{@items.size} rows>"
   end
 end
