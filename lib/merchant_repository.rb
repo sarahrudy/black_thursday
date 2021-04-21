@@ -26,8 +26,7 @@ class MerchantRepository < Repository
       Merchant.new(row)
     end
   end
-
-  # helper method
+  
   def populate_merchant_items
     items = @engine.items.all
     @merchants.each do |merchant|

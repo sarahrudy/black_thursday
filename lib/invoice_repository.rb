@@ -17,7 +17,7 @@ class InvoiceRepository < Repository
     attributes[:id] = find_last_id.to_i + 1
     invoice = Invoice.new(attributes)
     @invoices << invoice
-    invoice  # returning instance of the invoice
+    invoice
   end
 
   def create_invoices(file_path)

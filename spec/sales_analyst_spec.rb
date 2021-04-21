@@ -14,7 +14,6 @@ RSpec.describe SalesAnalyst do
     end
 
     it '#average_items_per_merchant_standard_deviation' do
-      # come back to make sure it's ok to use 3.16
       expect(sales_analyst.average_items_per_merchant_standard_deviation).to eq(3.26)
     end
 
@@ -41,7 +40,6 @@ RSpec.describe SalesAnalyst do
         price += item.unit_price
       end
       average_price = BigDecimal((price / 4), 5)
-      # require "pry"; binding.pry
 
       expect(sales_analyst.average_item_price_for_merchant(merchant.id)).to eq(average_price.round(2))
     end
@@ -61,7 +59,6 @@ RSpec.describe SalesAnalyst do
     end
 
     it '#average_invoices_per_merchant_standard_deviation' do
-      # come back to make sure it's ok to use 3.16
       expect(sales_analyst.average_invoices_per_merchant_standard_deviation).to eq(3.35)
     end
 
@@ -99,7 +96,7 @@ RSpec.describe SalesAnalyst do
   describe 'merchant analytics' do
     it 'should #total_revenue_by_date' do
       date = Time.parse('2009-02-07')
-      expect(sales_analyst.total_revenue_by_date(date)).to eq(60123500.67)
+      expect(sales_analyst.total_revenue_by_date(date)).to eq(21_550.89)
     end
 
     it 'should #top_revenue_earners default to 20 merchants' do
@@ -110,7 +107,7 @@ RSpec.describe SalesAnalyst do
 
     it 'should #revenue_by_merchant' do
       id = engine.merchants.all.first.id
-      expect(sales_analyst.revenue_by_merchant(id)).to eq(73777.17)
+      expect(sales_analyst.revenue_by_merchant(id)).to eq(73_777.17)
     end
 
     it 'should #merchants_with_pending_invoices ' do

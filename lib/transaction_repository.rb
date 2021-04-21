@@ -15,7 +15,7 @@ class TransactionRepository < Repository
     attributes[:id] = find_last_id.to_i + 1
     transaction = Transaction.new(attributes)
     @transactions << transaction
-    transaction  # returning instance of the transaction
+    transaction
   end
 
   def create_transactions(file_path)

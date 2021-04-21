@@ -15,7 +15,7 @@ class ItemRepository < Repository
     attributes[:id] = find_last_id.to_i + 1
     item = Item.new(attributes)
     @items << item
-    item  # returning instance of the item
+    item
   end
 
   def create_items(file_path)
@@ -26,7 +26,6 @@ class ItemRepository < Repository
   end
 
   def find_all_with_description(description)
-    # can refactor this to map enumerable
     item_array = []
     @items.each do |item|
       item_downcase = item.description.downcase

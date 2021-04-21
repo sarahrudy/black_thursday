@@ -13,7 +13,6 @@ RSpec.describe TransactionRepository do
     it 'can return an array of all known transaction instances'do
       transaction_repository = engine.transactions
 
-      # look into a different way of wording our test.
       expect(transaction_repository.all).to eq(transaction_repository.transactions)
     end
 
@@ -60,7 +59,8 @@ RSpec.describe TransactionRepository do
                                                     })
 
       expect(transaction_repository.find_all_by_invoice_id(transaction_1.invoice_id)).to eq([transaction_1,
-                                                                                             transaction_2, transaction_3])
+                                                                                             transaction_2,
+                                                                                             transaction_3])
     end
 
     it 'find all by credit_card_number' do
@@ -69,9 +69,9 @@ RSpec.describe TransactionRepository do
       transaction_2 = transaction_repository.find_by_id(4987)
       transaction_3 = transaction_repository.find_by_id(4988)
 
-      expect(transaction_repository.find_all_by_credit_card_number(transaction_1.credit_card_number)).to eq([
-                                                                                                              transaction_1, transaction_2, transaction_3
-                                                                                                            ])
+      expect(transaction_repository.find_all_by_credit_card_number(transaction_1.credit_card_number)).to eq([transaction_1,
+                                                                                                             transaction_2,
+                                                                                                             transaction_3])
     end
 
     it 'find all by result' do
@@ -108,9 +108,9 @@ RSpec.describe TransactionRepository do
                                                     })
 
       attributes = {
-        credit_card_number: '9876543210123456',
-        credit_card_expiration_date: '1222'
-      }
+                    credit_card_number: '9876543210123456',
+                    credit_card_expiration_date: '1222'
+                  }
       expected = transaction_repository.update(transaction_1.id, attributes)
 
       expect(expected.credit_card_number).to eq('9876543210123456')

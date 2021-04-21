@@ -10,7 +10,6 @@ RSpec.describe CustomerRepository do
 
   describe 'customer repository methods' do
     it 'can return an array of all known customer instances'do
-      # look into a different way of wording our test.
       expect(customer_repository.all.size).to eq(1000)
     end
 

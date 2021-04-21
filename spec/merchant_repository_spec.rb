@@ -9,7 +9,7 @@ RSpec.describe MerchantRepository do
 
   describe 'merchant repository methods' do
     it 'can return an array of all known merchant instances'do
-      # look into a different way of wording our test.
+    
       expect(engine.merchants.all.size).to eq(475)
     end
 

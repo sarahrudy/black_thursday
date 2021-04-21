@@ -28,11 +28,6 @@ class SalesAnalyst
     merchants = @engine.merchants.all.sort { |a, b| b.items.size <=> a.items.size }
     cut_off = (merchants.size * 0.5).round
     short_list = merchants[0..cut_off]
-    # average = average_items_per_merchant
-    # merchants_filtered = @engine.merchants.all.select do |merchant|
-    #   merchant.items.size > average
-    # end
-    #
     average_item_sd_height = average_items_per_merchant + average_items_per_merchant_standard_deviation
 
     short_list.find_all do |merchant|
@@ -57,7 +52,6 @@ class SalesAnalyst
     BigDecimal(total_average.sum / merchants.size, 5).round(2)
   end
 
-  # any item that is two standard deviations above the standard
   def golden_items
     item_price = @engine.items.all.map do |item|
       item.unit_price
@@ -72,8 +66,6 @@ class SalesAnalyst
     array.sum / array.size
   end
 
-  # helper method for average_items_per_merchant_standard_deviation
-  # an array
   def standard_deviation(sample_size)
     total_number_of_elements = sample_size.size
     mean = sample_size.sum / sample_size.size.to_r
@@ -84,7 +76,6 @@ class SalesAnalyst
     Math.sqrt(s).round(2)
   end
 
-  # gives you the invoice object
   def invoices_per_merchant
     merchants = @engine.merchants
     invoices = @engine.invoices
@@ -107,9 +98,6 @@ class SalesAnalyst
   end
 
   def top_merchants_by_invoice_count
-    # iterate over merchants to see how many invoices they have
-    # if that number is higher than the average + 2 st. dev.
-    # return that value
     invoices = @engine.invoices
     golden_invoices = average_invoices_per_merchant + (average_invoices_per_merchant_standard_deviation * 2)
     @engine.merchants.all.find_all do |merchant|
@@ -128,10 +116,8 @@ class SalesAnalyst
   def top_days_by_invoice_count
     dow = { 0 => 'Sunday', 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday',
             6 => 'Saturday' }
-    # days with highest number of sales by invoice count
     invoice_repo = @engine.invoices
     average_per_day = invoice_repo.all.size / 7
-    # grouped_invoices = Hash.new{|h,k| h[k] = 0}
     grouped_invoices = Hash.new(0)
     invoice_repo.all.each do |invoice|
       d = invoice.created_at.wday
@@ -150,7 +136,6 @@ class SalesAnalyst
   end
 
   def invoice_paid_in_full?(invoice_id)
-    # return true if transaction result is success
     transactions = @engine.transactions.find_all_by_invoice_id(invoice_id)
     return false if transactions.empty?
 
@@ -202,7 +187,6 @@ class SalesAnalyst
 
   def top_revenue_earners(num_of_merchants = 20)
     merchants = @engine.merchants.all
-    # invoice_repo = @engine.invoices
     transactions_repo = @engine.transactions
     merchant_revenue  = merchants.map do |merchant|
       [merchant, revenue_by_merchant(merchant.id)]
@@ -217,7 +201,7 @@ class SalesAnalyst
     end
   end
 
-  def merchants_with_pending_invoices # not passing test
+  def merchants_with_pending_invoices
     merchants = @engine.merchants.all
     merchants_array = []
     merchants.each do |merchant|
@@ -339,10 +323,8 @@ class SalesAnalyst
     top_revenue_item = item_hash.max_by do |_, revenue|
       revenue
     end
-
     all_items_by_merchant.find do |item|
       top_revenue_item[0] == item.id
-
     end
   end
 end

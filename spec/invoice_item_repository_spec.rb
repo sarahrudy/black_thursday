@@ -10,7 +10,6 @@ RSpec.describe InvoiceItemRepository do
 
   describe 'invoice items repository methods' do
     it 'can return an array of all known invoice item instances'do
-      # look into a different way of wording our test.
       expect(invoice_item_repository.all).to eq(invoice_item_repository.invoice_items)
     end
 
@@ -54,7 +53,8 @@ RSpec.describe InvoiceItemRepository do
 
       expect(invoice_item_repository.find_all_by_item_id(invoice_item_1.item_id).size).to eq(3)
       expect(invoice_item_repository.find_all_by_item_id(invoice_item_1.item_id)).to match_array([invoice_item_1,
-                                                                                                  invoice_item_2, invoice_item_3])
+                                                                                                  invoice_item_2,
+                                                                                                  invoice_item_3])
     end
 
     it 'finds all invoice item by invoice id' do
@@ -62,9 +62,9 @@ RSpec.describe InvoiceItemRepository do
       invoice_item_2 = invoice_item_repository.find_by_id(21_832)
       invoice_item_3 = invoice_item_repository.find_by_id(21_833)
 
-      expect(invoice_item_repository.find_all_by_invoice_id(invoice_item_1.invoice_id)).to match_array([
-                                                                                                         invoice_item_1, invoice_item_2, invoice_item_3
-                                                                                                       ])
+      expect(invoice_item_repository.find_all_by_invoice_id(invoice_item_1.invoice_id)).to match_array([invoice_item_1,
+                                                                                                        invoice_item_2,
+                                                                                                        invoice_item_3])
     end
 
     it 'can update an invoice item' do
