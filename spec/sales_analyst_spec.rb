@@ -124,13 +124,15 @@ RSpec.describe SalesAnalyst do
     it 'should #merchants_with_only_one_item_registered_in_month' do
       expect(sales_analyst.merchants_with_only_one_item_registered_in_month('March').size).to eq(21)
     end
-    
-    xit 'should #most_sold_item_for_merchant' do
-      expect(sales_analyst.most_sold_item_for_merchant).to eq([])
+
+    it 'should #most_sold_item_for_merchant' do
+      item = engine.items.find_by_id(263509902)
+      expect(sales_analyst.most_sold_item_for_merchant(12334155)).to eq([item])
     end
 
-    xit 'should #best_item_for_merchant' do
-      expect(sales_analyst.best_item_for_merchant).to eq(item)
+    it 'should #best_item_for_merchant' do
+      item = engine.items.find_by_id(263518274)
+      expect(sales_analyst.best_item_for_merchant(12334155)).to eq(item)
     end
   end
 end

@@ -153,7 +153,7 @@ class SalesAnalyst
     # return true if transaction result is success
     transactions = @engine.transactions.find_all_by_invoice_id(invoice_id)
     return false if transactions.empty?
-    
+
     transactions.all? do |transaction|
       transaction.result == :success
     end
@@ -170,7 +170,8 @@ class SalesAnalyst
   def total_revenue_by_date(date) # not passing test
     date = get_date(date)
     transactions_repo = @engine.transactions
-    invoices = @engine.invoices.find_all_by_date(date)
+    ii_by_date = @engine.invoice_items.find_all_by_date(date)
+    successes = transactions_repo.find_all_by_result(:success)
 
     arr = []
     invoices.each do |invoice|
@@ -234,10 +235,10 @@ class SalesAnalyst
     end
     merchants_array.flatten.uniq
   end
-  
+
   def merchants_with_only_one_item
     @engine.merchants.all.find_all do |merchant|
-      merchant.items.size == 1 
+      merchant.items.size == 1
     end
   end
 
@@ -269,6 +270,82 @@ class SalesAnalyst
       date = Date.parse(date)
     elsif date.class == Time
       date = date.to_date
+    end
+  end
+
+  def most_sold_item_for_merchant(merchant_id)
+    invoice_items = @engine.invoice_items
+    items = @engine.items
+
+    all_items_by_merchant = items.find_all_by_merchant_id(merchant_id)
+
+    item_id_array = all_items_by_merchant.map do |item|
+      item.id
+    end
+
+    find_all_items_in_ii = invoice_items.all.find_all do |ii|
+      item_id_array.include?(ii.item_id)
+    end
+
+    item_hash = Hash.new { |hash, key| hash[key] = 0 }
+    find_all_items_in_ii.each do |ii|
+      if item_hash[ii.item_id].nil?
+        item_hash[ii.item_id] = ii.quantity
+      else
+        item_hash[ii.item_id] += ii.quantity
+      end
+    end
+    quantity_values = item_hash.values.max
+    most_sold_item = item_hash.select do |_, quantity|
+      quantity == quantity_values
+    end
+
+    all_items_by_merchant.find_all do |item|
+      most_sold_item.keys.include?(item.id)
+    end
+  end
+
+  def best_item_for_merchant(merchant_id)
+    invoice_items_repo = @engine.invoice_items
+    items_repo = @engine.items
+    transaction_repo = @engine.transactions
+    invoice_repo = @engine.invoices
+
+    all_items_by_merchant = items_repo.find_all_by_merchant_id(merchant_id)
+
+    item_id_array = all_items_by_merchant.map do |item|
+      item.id
+    end
+
+    find_all_items_in_ii = invoice_items_repo.all.find_all do |ii|
+      item_id_array.include?(ii.item_id)
+    end
+
+    link_transact_with_ii = find_all_items_in_ii.find_all do |ii|
+      transaction_repo.find_all_by_invoice_id(ii.invoice_id) &&
+        transaction_repo.find_all_by_result(:success)
+    end
+
+    link_invoices_with_ii = link_transact_with_ii.find_all do |ii|
+      invoice_repo.find_all_by_merchant_id(merchant_id) &&
+        invoice_repo.find_all_by_status(:shipped)
+    end
+
+    item_hash = Hash.new { |hash, key| hash[key] = 0 }
+    link_invoices_with_ii.each do |ii|
+      if item_hash[ii.item_id].nil?
+        item_hash[ii.item_id] = ii.quantity * ii.unit_price
+      else
+        item_hash[ii.item_id] += ii.quantity * ii.unit_price
+      end
+    end
+    top_revenue_item = item_hash.max_by do |_, revenue|
+      revenue
+    end
+
+    all_items_by_merchant.find do |item|
+      top_revenue_item[0] == item.id
+
     end
   end
 end
